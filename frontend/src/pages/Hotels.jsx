@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import SEO from '../components/SEO';
 
 export default function Hotels() {
   const [apiHotels, setApiHotels] = useState([]);
@@ -51,7 +52,12 @@ export default function Hotels() {
   const displayHotels = apiHotels.length > 0 ? apiHotels : defaultHotels;
 
   return (
-    <div className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
+    <main className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
+      <SEO 
+        title="Hotels & Stays" 
+        description="Find the best premium hotels, budget stays, and ashrams in Varanasi, Prayagraj, and Ayodhya with Varanasi SN Tours & Travels."
+        url="/hotels"
+      />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
@@ -148,6 +154,6 @@ export default function Hotels() {
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 }

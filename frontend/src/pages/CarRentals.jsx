@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import SEO from '../components/SEO';
 
 export default function CarRentals() {
   const [apiCars, setApiCars] = useState([]);
@@ -52,7 +53,12 @@ export default function CarRentals() {
   const displayCars = apiCars.length > 0 ? apiCars : defaultCars;
 
   return (
-    <div className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
+    <main className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
+      <SEO 
+        title="Car & Taxi Rentals" 
+        description="Book premium taxi services and car rentals with Varanasi SN Tours & Travels for safe and comfortable journeys across Kashi, Ayodhya, and Prayagraj."
+        url="/car-rentals"
+      />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
@@ -171,6 +177,6 @@ export default function CarRentals() {
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 }

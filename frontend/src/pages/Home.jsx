@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import SacredDestinations from '../components/SacredDestinations';
+import SEO from '../components/SEO';
 
 const formatStat = (num) => {
   if (num === undefined || num === null) return '';
@@ -151,7 +152,26 @@ export default function Home() {
   const displayReviews = [...apiReviews, ...reviews];
 
   return (
-    <div className="bg-ivory text-charcoal">
+    <main className="bg-ivory text-charcoal">
+      <SEO 
+        title="Varanasi SN Tour & Travels - Premium Packages" 
+        description="Explore Varanasi, Ayodhya, Prayagraj, Kashi with Varanasi SN Tours & Travels. Book customized tours, taxi services, spiritual journeys and premium travel packages."
+        url="/"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          "name": "Varanasi Travels",
+          "url": "https://www.varanasisntours.com",
+          "logo": "https://www.varanasisntours.com/favicon.svg",
+          "description": "Explore Varanasi, Ayodhya, Prayagraj, Kashi with Varanasi SN Tours & Travels. Book customized tours, taxi services, spiritual journeys and premium travel packages.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Varanasi",
+            "addressRegion": "Uttar Pradesh",
+            "addressCountry": "IN"
+          }
+        }}
+      />
       {/* Hero Section */}
       <style>
         {`
@@ -504,6 +524,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }

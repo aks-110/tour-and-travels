@@ -7,6 +7,7 @@ import {
   Map, MessageCircle, Navigation, Sun, CloudRain, Snowflake, CheckCircle2, ChevronDown, ChevronUp, ArrowLeft, X, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import SEO from '../components/SEO';
 
 export default function PackageDetail() {
   const { id } = useParams();
@@ -106,7 +107,13 @@ export default function PackageDetail() {
   // Render Legacy View if no AI Content
   if (!isPremium) {
     return (
-      <div className="bg-ivory text-earth pt-20">
+      <main className="bg-ivory text-earth pt-20">
+        <SEO 
+          title={`${pkg.title} Tour Package`} 
+          description={pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tours & Travels."}
+          url={`/package/${id}`}
+          image={pkg.imageUrl || pkg.imageUrls?.[0]}
+        />
         <div className="px-4 md:px-8 mt-6">
           <div className="relative w-full h-[450px] md:h-[600px] rounded-[32px] overflow-hidden shadow-2xl mx-auto w-full bg-black">
             <motion.img 
@@ -169,13 +176,29 @@ export default function PackageDetail() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   // --- PREMIUM AI VIEW ---
   return (
-    <div className="bg-ivory text-earth">
+    <main className="bg-ivory text-earth">
+      <SEO 
+        title={`${ai.heroSection?.title || pkg.title} Premium Package`} 
+        description={ai.heroSection?.subtitle || (pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tours & Travels.")}
+        url={`/package/${id}`}
+        image={pkg.imageUrls?.[0]}
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          "name": ai.heroSection?.title || pkg.title,
+          "description": ai.heroSection?.subtitle || pkg.overview,
+          "provider": {
+            "@type": "TravelAgency",
+            "name": "Varanasi Travels"
+          }
+        }}
+      />
       
       {/* 1. Hero Section */}
       <div className="relative w-full h-[60vh] md:h-[80vh] min-h-[500px] overflow-hidden shadow-2xl mx-auto bg-black group">
@@ -624,6 +647,6 @@ export default function PackageDetail() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import SEO from '../components/SEO';
 
 export default function TourPackages() {
   const [packages, setPackages] = useState([]);
@@ -15,7 +16,12 @@ export default function TourPackages() {
   }, []);
 
   return (
-    <div className="bg-ivory text-earth pt-[72px] md:pt-[88px] relative min-h-screen">
+    <main className="bg-ivory text-earth pt-[72px] md:pt-[88px] relative min-h-screen">
+      <SEO 
+        title="Tour Packages" 
+        description="Find the perfect carefully-crafted pilgrimage package that suits your schedule and preferences. Varanasi SN Tours & Travels offers customized tours."
+        url="/tour-packages"
+      />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
@@ -112,6 +118,6 @@ export default function TourPackages() {
         </div>
       </div>
 
-    </div>
+    </main>
   );
 }
