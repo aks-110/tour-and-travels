@@ -266,38 +266,37 @@ export default function RouteBuilder() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {templates.map(template => (
-          <div key={template._id} className="border border-zinc-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow p-5">
+          <div key={template._id} className="border border-zinc-200 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col justify-between">
             <div className="flex justify-between items-start mb-4">
-              <div>
-                <h3 className="font-bold text-lg text-zinc-900">{template.name}</h3>
-                <div className="flex items-center gap-3 text-sm text-zinc-500 mt-1">
-                  <span>{template.distance}</span>
-                  <span>•</span>
-                  <span>{template.estimatedTime}</span>
+              <div className="pr-4">
+                <h3 className="font-extrabold text-lg text-zinc-900 leading-snug">{template.name}</h3>
+                <div className="flex items-center gap-2 text-sm text-zinc-500 mt-2 font-medium">
+                  <span className="bg-zinc-100 px-2.5 py-1 rounded-md text-xs tracking-wide">{template.distance}</span>
+                  <span className="bg-zinc-100 px-2.5 py-1 rounded-md text-xs tracking-wide">{template.estimatedTime}</span>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={() => { setCurrentTemplate(template); setIsEditing(true); }} className="p-2 text-zinc-400 hover:text-amber-500 bg-zinc-50 hover:bg-amber-50 rounded-lg">
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => { setCurrentTemplate(template); setIsEditing(true); }} className="p-2 text-zinc-500 hover:text-amber-600 bg-zinc-50 hover:bg-amber-50 rounded-xl transition-colors">
                   <RouteIcon className="w-4 h-4" />
                 </button>
-                <button onClick={() => openDeleteModal(template)} className="p-2 text-zinc-400 hover:text-red-500 bg-zinc-50 hover:bg-red-50 rounded-lg">
+                <button onClick={() => openDeleteModal(template)} className="p-2 text-zinc-500 hover:text-red-600 bg-zinc-50 hover:bg-red-50 rounded-xl transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
             
-            <div className="bg-zinc-50 rounded-lg p-4">
-              <div className="text-sm font-medium text-zinc-700 mb-2">Route Flow:</div>
-              <div className="flex items-center gap-2 text-sm text-zinc-500 overflow-x-auto pb-2 whitespace-nowrap">
-                <span className="font-semibold text-amber-600">{template.pickupPointId?.name}</span>
+            <div className="bg-zinc-50/80 border border-zinc-100 rounded-xl p-4 mt-2">
+              <div className="text-xs uppercase tracking-wider font-bold text-zinc-400 mb-3">Route Journey</div>
+              <div className="flex flex-wrap items-center gap-y-2 gap-x-1.5 text-[13px]">
+                <span className="font-bold text-amber-700 bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-md">{template.pickupPointId?.name}</span>
                 {template.stops?.map((stop, idx) => (
-                  <span key={idx} className="flex items-center gap-2">
-                    <span className="text-zinc-300">→</span>
-                    <span>{stop.title}</span>
+                  <span key={idx} className="flex items-center gap-1.5">
+                    <span className="text-zinc-400">→</span>
+                    <span className="font-medium text-zinc-700 bg-white border border-zinc-200 px-2.5 py-1 rounded-md shadow-sm">{stop.title}</span>
                   </span>
                 ))}
-                <span className="text-zinc-300">→</span>
-                <span className="font-semibold text-amber-600">{template.dropPointId?.name}</span>
+                <span className="text-zinc-400">→</span>
+                <span className="font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-2.5 py-1 rounded-md">{template.dropPointId?.name}</span>
               </div>
             </div>
           </div>

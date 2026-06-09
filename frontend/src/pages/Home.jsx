@@ -292,45 +292,66 @@ export default function Home() {
             </div>
           </div>
           
-          {/* Enquiry Card — responsive padding with clamp() */}
-          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-            <div 
-              className="relative bg-white shadow-2xl rounded-2xl border border-gray-100"
-              style={{ padding: 'clamp(1.25rem, 1rem + 1.5vw, 2rem)' }}
+          {/* CTA Card — no form, direct link to fare calculator */}
+          <div className="lg:col-span-5 relative mt-6 lg:mt-0 flex items-center justify-center">
+            <div
+              className="relative bg-white/95 backdrop-blur-md shadow-2xl rounded-2xl border border-white/60 w-full overflow-hidden"
+              style={{ padding: 'clamp(1.75rem, 1.5rem + 1.5vw, 2.5rem)' }}
             >
-              <p className="font-sans text-xs font-bold tracking-widest text-gold uppercase mb-2">Fast Enquiry · 30 Seconds</p>
-              <p 
+              {/* Decorative gold accent top bar */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold via-amber-400 to-gold rounded-t-2xl" />
+
+              {/* Badge */}
+              <p className="font-sans text-xs font-bold tracking-widest text-gold uppercase mb-3 flex items-center gap-2">
+                <span className="inline-block w-5 h-0.5 bg-gold rounded-full" />
+                Instant Fare Calculator
+              </p>
+
+              {/* Headline */}
+              <p
                 className="font-serif font-bold text-gray-900 leading-tight"
-                style={{ 
-                  fontSize: 'clamp(1.5rem, 1.25rem + 1vw, 1.875rem)',
-                  marginBottom: 'clamp(0.25rem, 0.5vw, 0.5rem)',
+                style={{
+                  fontSize: 'clamp(1.6rem, 1.3rem + 1.2vw, 2.1rem)',
+                  marginBottom: 'clamp(0.5rem, 0.75vw, 0.75rem)',
                 }}
               >
-                Free itinerary in <span className="text-gold">2 hours</span>.
+                Get your fare in{' '}
+                <span className="text-gold">30 seconds</span>.
               </p>
-              <p className="text-gray-500 text-sm font-medium" style={{ marginBottom: 'clamp(1rem, 0.75rem + 0.5vw, 1.5rem)' }}>Tell us when and how many. We handle the rest.</p>
-              
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1.5 uppercase tracking-wider">Full Name *</label>
-                  <input required className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl font-sans text-sm text-gray-900 outline-none transition-colors hover:border-blue-200 focus:border-[#006CE4] focus:ring-2 focus:ring-blue-100" placeholder="Your full name" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[11px] font-bold text-gray-700 mb-1.5 uppercase tracking-wider">Mobile *</label>
-                    <input required type="tel" className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl font-sans text-sm text-gray-900 outline-none transition-colors hover:border-blue-200 focus:border-[#006CE4] focus:ring-2 focus:ring-blue-100" placeholder="10-digit number" />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-bold text-gray-700 mb-1.5 uppercase tracking-wider">Email</label>
-                    <input type="email" className="w-full p-3.5 bg-gray-50 border border-gray-200 rounded-xl font-sans text-sm text-gray-900 outline-none transition-colors hover:border-blue-200 focus:border-[#006CE4] focus:ring-2 focus:ring-blue-100" placeholder="you@email.com" />
-                  </div>
-                </div>
-                <div className="pt-2">
-                  <Link to="/enquire-now" className="bg-gold hover:brightness-110 active:scale-95 transition-all text-charcoal font-bold text-sm px-6 py-4 rounded-xl inline-flex items-center justify-center w-full text-center shadow-md">Proceed to Enquire →</Link>
-                </div>
-              </form>
+
+              <p className="text-gray-500 font-medium leading-relaxed" style={{ fontSize: 'clamp(0.82rem, 0.75rem + 0.3vw, 0.95rem)', marginBottom: 'clamp(1.25rem, 1rem + 1vw, 2rem)' }}>
+                Pick your route, choose your vehicle, and get the exact fare instantly — no hidden charges.
+              </p>
+
+              {/* Feature pills */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['✅ No Hidden Charges', '🚗 All Vehicles', '📍 All Routes'].map(f => (
+                  <span key={f} className="text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full">
+                    {f}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <Link
+                to="/fare-calculator"
+                className="group bg-gold hover:brightness-110 active:scale-95 transition-all text-charcoal font-bold rounded-xl inline-flex items-center justify-center w-full text-center shadow-lg shadow-gold/25 gap-3"
+                style={{
+                  fontSize: 'clamp(0.9rem, 0.85rem + 0.2vw, 1rem)',
+                  padding: 'clamp(0.9rem, 0.8rem + 0.4vw, 1.1rem) 1.5rem',
+                }}
+              >
+                Calculate My Fare
+                <span className="group-hover:translate-x-1 transition-transform duration-200 text-lg">→</span>
+              </Link>
+
+              {/* Trust line */}
+              <p className="text-center text-gray-400 text-[11px] font-medium mt-3">
+                Free · Instant · No registration needed
+              </p>
             </div>
           </div>
+
         </div>
       </section>
 

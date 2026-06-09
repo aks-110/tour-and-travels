@@ -39,7 +39,7 @@ Please contact them back within 2 hours!
   // Fire and forget notifications
   console.log(`[Notification Service] Attempting to send Admin Email and Admin SMS for new enquiry...`);
   Promise.all([
-    sendEmail(subject, messageBody),
+    sendEmail(null, subject, messageBody),
     sendSMS(null, messageBody)
   ]).catch(err => console.error("Error in admin notification service:", err));
 
@@ -47,7 +47,35 @@ Please contact them back within 2 hours!
   notifyCustomerNewEnquiry(enquiry);
 };
 
+const notifyBookingConfirmed = async (booking) => {
+  if (!booking.customerDetails || !booking.customerDetails.email) return;
+
+  const subject = `Your Booking is Confirmed! [${booking.bookingId}]`;
+  const messageBody = `Dear ${booking.customerDetails.fullName},\n\nGreat news! Your booking (${booking.bookingId}) has been confirmed by our team.\n\nTour Details:\nRoute: ${booking.packageDetails?.sourceCity} to ${booking.packageDetails?.destinationCity}\nVehicle: ${booking.packageDetails?.vehicleName}\nTravel Date: ${new Date(booking.travelDate).toLocaleDateString()}\n\nWe look forward to hosting you!\n\nWarm Regards,\nVaranasi SN Tour & Travels`;
+
+  console.log(`[Notification Service] Sending Booking Confirmation Email to: ${booking.customerDetails.email}`);
+  Promise.all([
+    sendEmail(booking.customerDetails.email, subject, messageBody),
+    booking.customerDetails.mobile ? sendSMS(booking.customerDetails.mobile, messageBody) : Promise.resolve()
+  ]).catch(err => console.error("Error sending booking confirmation notification:", err));
+};
+
+const notifyBookingCancelled = async (booking) => {
+  if (!booking.customerDetails || !booking.customerDetails.email) return;
+
+  const subject = `Booking Update - Cancelled [${booking.bookingId}]`;
+  const messageBody = `Dear ${booking.customerDetails.fullName},\n\nWe regret to inform you that your booking (${booking.bookingId}) has been cancelled.\nIf you have already paid an advance, the refund process has been initiated and should reflect in your account within 5-7 business days.\n\nWe apologize for the inconvenience and hope to serve you in the future.\n\nWarm Regards,\nVaranasi SN Tour & Travels`;
+
+  console.log(`[Notification Service] Sending Booking Cancellation Email to: ${booking.customerDetails.email}`);
+  Promise.all([
+    sendEmail(booking.customerDetails.email, subject, messageBody),
+    booking.customerDetails.mobile ? sendSMS(booking.customerDetails.mobile, messageBody) : Promise.resolve()
+  ]).catch(err => console.error("Error sending booking cancellation notification:", err));
+};
+
 module.exports = {
   notifyAdminNewEnquiry,
-  notifyCustomerNewEnquiry
+  notifyCustomerNewEnquiry,
+  notifyBookingConfirmed,
+  notifyBookingCancelled
 };

@@ -97,8 +97,8 @@ export default function FareCalculator() {
     if (step > 1) setStep(s => s - 1);
   };
 
-  const handleContinueToEnquiry = () => {
-    navigate('/enquire-now', {
+  const handleProceedToCheckout = () => {
+    navigate('/checkout', {
       state: {
         fareData: {
           sourceCity: fareResult.route.sourceCity,
@@ -529,12 +529,12 @@ export default function FareCalculator() {
                     </div>
 
                     <button
-                      onClick={handleContinueToEnquiry}
+                      onClick={handleProceedToCheckout}
                       className="w-full mt-8 bg-gold hover:bg-[#eab308] text-charcoal font-bold py-4 rounded-xl text-lg transition-all cursor-pointer shadow-lg shadow-gold/20 hover:shadow-gold/40 hover:-translate-y-0.5"
                     >
-                      Continue To Enquiry →
+                      Proceed to Secure Booking →
                     </button>
-                    <p className="text-center text-earth-400 text-xs mt-4 font-medium">No payment required. Our team will contact you to confirm.</p>
+                    <p className="text-center text-earth-400 text-xs mt-4 font-medium">Pay only a small advance today. Rest on arrival.</p>
                   </div>
                 ) : null}
               </div>

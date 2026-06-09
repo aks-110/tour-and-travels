@@ -17,6 +17,7 @@ const CarRentals = lazy(() => import('./pages/CarRentals'));
 const Hotels = lazy(() => import('./pages/Hotels'));
 const WriteReview = lazy(() => import('./pages/WriteReview'));
 const AdminReviews = lazy(() => import('./pages/AdminReviews'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 // Lazy load SEO Landing Pages
 const VaranasiTourPackage = lazy(() => import('./pages/seo/VaranasiTourPackage'));
@@ -65,6 +66,7 @@ function App() {
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/enquire-now" element={<Enquire />} />
             <Route path="/fare-calculator" element={<FareCalculator />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/write-review" element={<WriteReview />} />
             <Route path="/admin/reviews" element={<AdminReviews />} />
             

@@ -7,6 +7,7 @@ import Layout from './components/layout/Layout';
 // Pages
 import Dashboard from './pages/Dashboard';
 import Enquiries from './pages/Enquiries';
+import Bookings from './pages/Bookings';
 import Portfolio from './pages/Portfolio';
 import Cars from './pages/Cars';
 import Hotels from './pages/Hotels';
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/bookings" element={<Bookings />} />
             <Route path="/enquiries" element={<Enquiries />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/services/cars" element={<Cars />} />

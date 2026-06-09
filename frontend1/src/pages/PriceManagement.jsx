@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, CheckCircle2, XCircle } from 'lucide-react';
+import { Plus, Edit2, Trash2, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TABS = [
   { id: 'routes', label: 'Routes' },
@@ -18,7 +19,8 @@ export default function PriceManagement() {
     categories: [],
     vehicles: [],
     'pricing-rules': [],
-    offers: []
+    offers: [],
+    cars: [] // For listing cars from Car Services
   });
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +28,15 @@ export default function PriceManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({});
+
+  // Toast & Confirm State
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, id: null });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
+  };
 
   useEffect(() => {
     fetchData(activeTab);
@@ -36,6 +47,12 @@ export default function PriceManagement() {
     try {
       const res = await fetchWithAuth(`/pricing/admin/${tab}`);
       setData(prev => ({ ...prev, [tab]: res }));
+      
+      // If we are on the vehicles tab, also fetch the cars from Car Services for the dropdown
+      if (tab === 'vehicles') {
+        const carsRes = await fetchWithAuth('/guide/cars');
+        setData(prev => ({ ...prev, cars: carsRes }));
+      }
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
@@ -51,6 +68,14 @@ export default function PriceManagement() {
       if (activeTab === 'offers') {
         initData.startDate = item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : '';
         initData.endDate = item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : '';
+      }
+      // Normalize populated ObjectId fields to plain _id strings
+      // so the <select> value matches the <option value={c._id}> exactly
+      if (activeTab === 'vehicles' && initData.categoryId && typeof initData.categoryId === 'object') {
+        initData.categoryId = initData.categoryId._id;
+      }
+      if (activeTab === 'pricing-rules' && initData.vehicleId && typeof initData.vehicleId === 'object') {
+        initData.vehicleId = initData.vehicleId._id;
       }
       setFormData(initData);
     } else {
@@ -80,20 +105,28 @@ export default function PriceManagement() {
       
       handleCloseModal();
       fetchData(activeTab);
+      showToast(`${TABS.find(t => t.id === activeTab)?.label.slice(0, -1) || 'Item'} successfully ${editingItem ? 'updated' : 'added'}!`, 'success');
     } catch (err) {
       console.error('Error saving:', err);
-      alert('Error saving data: ' + err.message);
+      showToast('Failed to save data: ' + err.message, 'error');
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this item?')) return;
+  const requestDelete = (id) => {
+    setDeleteConfirm({ isOpen: true, id });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm.id) return;
     try {
-      await fetchWithAuth(`/pricing/admin/${activeTab}/${id}`, { method: 'DELETE' });
+      await fetchWithAuth(`/pricing/admin/${activeTab}/${deleteConfirm.id}`, { method: 'DELETE' });
       fetchData(activeTab);
+      showToast('Item deleted successfully!', 'success');
     } catch (err) {
       console.error('Error deleting:', err);
-      alert('Error deleting: ' + err.message);
+      showToast('Failed to delete: ' + err.message, 'error');
+    } finally {
+      setDeleteConfirm({ isOpen: false, id: null });
     }
   };
 
@@ -101,7 +134,7 @@ export default function PriceManagement() {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : (type === 'number' && value !== '') ? Number(value) : value
     }));
   };
 
@@ -149,12 +182,21 @@ export default function PriceManagement() {
       case 'vehicles': return (
         <>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Vehicle Name</label>
-            <input required name="name" value={formData.name || ''} onChange={handleChange} placeholder="e.g. Innova Crysta" className="w-full border rounded p-2" />
+            <label className="block text-sm font-medium mb-1">Vehicle Name (From Car Services)</label>
+            <select required name="name" value={formData.name || ''} onChange={handleChange} className="w-full border rounded p-2">
+              <option value="">Select a Car</option>
+              {data.cars && data.cars.map(car => (
+                <option key={car._id} value={car.name}>{car.name}</option>
+              ))}
+              {/* Fallback to allow keeping an existing name that might have been deleted from Car Services */}
+              {formData.name && (!data.cars || !data.cars.find(c => c.name === formData.name)) && (
+                 <option value={formData.name}>{formData.name}</option>
+              )}
+            </select>
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Category</label>
-            <select required name="categoryId" value={formData.categoryId || (formData.categoryId?._id) || ''} onChange={handleChange} className="w-full border rounded p-2">
+            <select required name="categoryId" value={formData.categoryId || ''} onChange={handleChange} className="w-full border rounded p-2">
               <option value="">Select Category</option>
               {data.categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
@@ -199,7 +241,7 @@ export default function PriceManagement() {
         <>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Vehicle</label>
-            <select required name="vehicleId" value={formData.vehicleId || (formData.vehicleId?._id) || ''} onChange={handleChange} className="w-full border rounded p-2">
+            <select required name="vehicleId" value={formData.vehicleId || ''} onChange={handleChange} className="w-full border rounded p-2">
               <option value="">Select Vehicle</option>
               {data.vehicles.map(v => <option key={v._id} value={v._id}>{v.name}</option>)}
             </select>
@@ -274,7 +316,7 @@ export default function PriceManagement() {
           <td className="p-3">{activeBadge}</td>
           <td className="p-3 text-right">
             <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
-            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => requestDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
           </td>
         </tr>
       );
@@ -285,7 +327,7 @@ export default function PriceManagement() {
           <td className="p-3">{activeBadge}</td>
           <td className="p-3 text-right">
             <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
-            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => requestDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
           </td>
         </tr>
       );
@@ -297,7 +339,7 @@ export default function PriceManagement() {
           <td className="p-3">{activeBadge}</td>
           <td className="p-3 text-right">
             <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
-            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => requestDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
           </td>
         </tr>
       );
@@ -309,7 +351,7 @@ export default function PriceManagement() {
           <td className="p-3">{activeBadge}</td>
           <td className="p-3 text-right">
             <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
-            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => requestDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
           </td>
         </tr>
       );
@@ -321,7 +363,7 @@ export default function PriceManagement() {
           <td className="p-3">{activeBadge}</td>
           <td className="p-3 text-right">
             <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
-            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => requestDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
           </td>
         </tr>
       );
@@ -403,6 +445,72 @@ export default function PriceManagement() {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteConfirm.isOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[60] p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
+            >
+              <div className="p-6 text-center">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-8 h-8 text-red-500" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-900 mb-2">Delete Item?</h3>
+                <p className="text-zinc-500 mb-6 text-sm">Are you sure you want to permanently delete this item? This action cannot be undone.</p>
+                <div className="flex gap-3">
+                  <button 
+                    onClick={() => setDeleteConfirm({ isOpen: false, id: null })} 
+                    className="flex-1 px-4 py-2.5 border border-zinc-200 rounded-xl text-zinc-700 hover:bg-zinc-50 font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={confirmDelete} 
+                    className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors shadow-sm shadow-red-600/20"
+                  >
+                    Yes, Delete
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast.show && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+            className="fixed bottom-6 right-6 z-[70]"
+          >
+            <div className={`flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-xl border ${
+              toast.type === 'success' 
+                ? 'bg-white border-green-100 text-zinc-800' 
+                : 'bg-white border-red-100 text-red-800'
+            }`}>
+              {toast.type === 'success' ? (
+                <div className="bg-green-100 rounded-full p-1"><CheckCircle2 className="w-5 h-5 text-green-600" /></div>
+              ) : (
+                <div className="bg-red-100 rounded-full p-1"><AlertCircle className="w-5 h-5 text-red-600" /></div>
+              )}
+              <p className="font-medium text-sm pr-2">{toast.message}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

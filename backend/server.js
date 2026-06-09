@@ -9,6 +9,9 @@ const packageRoutes = require('./routes/packageRoutes');
 const routeManagementRoutes = require('./routes/routeManagementRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const pricingRoutes = require('./routes/pricingRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const webhookRoutes = require('./routes/webhookRoutes');
+const startRefundWorker = require('./cron/refundWorker');
 
 const app = express();
 
@@ -51,6 +54,8 @@ app.use('/api/route-management', routeManagementRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/ai', aiContentRoutes);
 app.use('/api/pricing', pricingRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/webhooks', webhookRoutes);
 app.use('/api', apiRoutes);
 
 // Global Error Handler (catches Clerk Unauthenticated errors)
@@ -67,4 +72,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  startRefundWorker();
+});

@@ -13,6 +13,7 @@ import {
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Bookings', path: '/bookings', icon: IndianRupee },
     { name: 'Enquiries', path: '/enquiries', icon: Star },
     { name: 'Price Management', path: '/price-management', icon: IndianRupee },
     { name: 'Package Management', path: '/packages', icon: Package },
