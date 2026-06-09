@@ -1,16 +1,21 @@
 const { sendEmail } = require('../utils/emailProvider');
 const { sendSMS } = require('../utils/twilioProvider');
 
+const formatPhone = (mobile) => {
+  if (!mobile) return null;
+  let phone = mobile.toString().trim();
+  if (phone.length === 10 && !phone.startsWith('+')) {
+    return `+91${phone}`;
+  } else if (!phone.startsWith('+')) {
+    return `+${phone}`;
+  }
+  return phone;
+};
+
 const notifyCustomerNewEnquiry = async (enquiry) => {
   if (!enquiry.mobile) return;
   
-  let phone = enquiry.mobile.toString().trim();
-  // Assume Indian number if no country code provided and it's 10 digits
-  if (phone.length === 10 && !phone.startsWith('+')) {
-    phone = `+91${phone}`;
-  } else if (!phone.startsWith('+')) {
-    phone = `+${phone}`;
-  }
+  const phone = formatPhone(enquiry.mobile);
 
   const messageBody = `Dear ${enquiry.fullName},\n\nThank you for your enquiry with Varanasi SN Tour & Travels! We have received your details and our team will contact you with a free customized itinerary within 2 hours.\n\nWarm Regards,\nVaranasi SN Tour & Travels`;
 
@@ -53,10 +58,12 @@ const notifyBookingConfirmed = async (booking) => {
   const subject = `Your Booking is Confirmed! [${booking.bookingId}]`;
   const messageBody = `Dear ${booking.customerDetails.fullName},\n\nGreat news! Your booking (${booking.bookingId}) has been confirmed by our team.\n\nTour Details:\nRoute: ${booking.packageDetails?.sourceCity} to ${booking.packageDetails?.destinationCity}\nVehicle: ${booking.packageDetails?.vehicleName}\nTravel Date: ${new Date(booking.travelDate).toLocaleDateString()}\n\nWe look forward to hosting you!\n\nWarm Regards,\nVaranasi SN Tour & Travels`;
 
-  console.log(`[Notification Service] Sending Booking Confirmation Email to: ${booking.customerDetails.email}`);
+  const phone = formatPhone(booking.customerDetails.mobile);
+
+  console.log(`[Notification Service] Sending Booking Confirmation Email to: ${booking.customerDetails.email} and SMS to: ${phone}`);
   Promise.all([
     sendEmail(booking.customerDetails.email, subject, messageBody),
-    booking.customerDetails.mobile ? sendSMS(booking.customerDetails.mobile, messageBody) : Promise.resolve()
+    phone ? sendSMS(phone, messageBody) : Promise.resolve()
   ]).catch(err => console.error("Error sending booking confirmation notification:", err));
 };
 
@@ -66,10 +73,12 @@ const notifyBookingCancelled = async (booking) => {
   const subject = `Booking Update - Cancelled [${booking.bookingId}]`;
   const messageBody = `Dear ${booking.customerDetails.fullName},\n\nWe regret to inform you that your booking (${booking.bookingId}) has been cancelled.\nIf you have already paid an advance, the refund process has been initiated and should reflect in your account within 5-7 business days.\n\nWe apologize for the inconvenience and hope to serve you in the future.\n\nWarm Regards,\nVaranasi SN Tour & Travels`;
 
-  console.log(`[Notification Service] Sending Booking Cancellation Email to: ${booking.customerDetails.email}`);
+  const phone = formatPhone(booking.customerDetails.mobile);
+
+  console.log(`[Notification Service] Sending Booking Cancellation Email to: ${booking.customerDetails.email} and SMS to: ${phone}`);
   Promise.all([
     sendEmail(booking.customerDetails.email, subject, messageBody),
-    booking.customerDetails.mobile ? sendSMS(booking.customerDetails.mobile, messageBody) : Promise.resolve()
+    phone ? sendSMS(phone, messageBody) : Promise.resolve()
   ]).catch(err => console.error("Error sending booking cancellation notification:", err));
 };
 

@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const apiRoutes = require('./routes/apiRoutes');
@@ -25,10 +27,8 @@ const allowedOrigins = [
 if (process.env.ALLOWED_ORIGINS) {
   allowedOrigins.push(...process.env.ALLOWED_ORIGINS.split(',').map(url => url.trim()));
 }
-
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
       callback(null, true);
@@ -37,8 +37,25 @@ app.use(cors({
     }
   },
   credentials: true
-}));
+};
+app.use(cors(corsOptions));
 app.use(express.json());
+
+const server = http.createServer(app);
+const io = new Server(server, { cors: corsOptions });
+
+// Make io accessible to our router/controllers
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+  socket.on('disconnect', () => {
+    console.log('A client disconnected:', socket.id);
+  });
+});
 
 const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/tour';
 mongoose.connect(mongoUri)
@@ -72,7 +89,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   startRefundWorker();
 });

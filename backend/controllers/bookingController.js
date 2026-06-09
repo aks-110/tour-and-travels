@@ -96,6 +96,10 @@ exports.createOrder = async (req, res) => {
     });
     await booking.save();
 
+    if (paymentMode === 'withoutAdvance') {
+      req.io?.emit('newBooking', booking);
+    }
+
     if (paymentMode !== 'withoutAdvance') {
       // Create initial Payment log
       const payment = new Payment({
@@ -159,6 +163,8 @@ exports.verifyPayment = async (req, res) => {
       { new: true }
     );
 
+    req.io?.emit('newBooking', booking);
+
     res.status(200).json({
       success: true,
       message: "Payment verified successfully",
@@ -216,6 +222,7 @@ exports.adminConfirmBooking = async (req, res) => {
     // Trigger Email / SMS notification asynchronously (no await) to avoid lag
     if (booking) {
       notifyBookingConfirmed(booking);
+      req.io?.emit('bookingUpdated', booking);
     }
     
     res.status(200).json({ message: "Booking confirmed successfully", booking });
@@ -271,6 +278,7 @@ exports.adminCancelBooking = async (req, res) => {
 
         // Fire and forget cancellation notification
         notifyBookingCancelled(booking);
+        req.io?.emit('bookingUpdated', booking);
 
         return res.status(200).json({ 
           message: "Booking cancelled & ₹" + payment.amount + " refund processed successfully.", 
@@ -295,6 +303,7 @@ exports.adminCancelBooking = async (req, res) => {
         }
 
         notifyBookingCancelled(booking);
+        req.io?.emit('bookingUpdated', booking);
 
         return res.status(200).json({
           message: "Booking cancelled. Refund queued for manual processing.",
@@ -307,6 +316,7 @@ exports.adminCancelBooking = async (req, res) => {
       await booking.save();
 
       notifyBookingCancelled(booking);
+      req.io?.emit('bookingUpdated', booking);
 
       return res.status(200).json({
         message: "Booking cancelled successfully. No payment to refund.",

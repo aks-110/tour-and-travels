@@ -53,6 +53,16 @@ export default function Checkout() {
     }
   }, [successBooking, navigate]);
 
+  // Auto-hide error messages after 2 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -227,9 +237,10 @@ export default function Checkout() {
           <h1 className="font-serif text-2xl md:text-3xl text-earth">Secure Booking</h1>
         </div>
 
+        {/* Floating Global Error Toast */}
         {error && (
-          <div className="mb-8 bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600" />
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[100] bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl flex items-center gap-3 shadow-2xl max-w-lg w-[90%] md:w-auto transition-all duration-300">
+            <AlertCircle className="w-5 h-5 shrink-0 text-red-600" />
             <p className="text-sm font-medium">{error}</p>
           </div>
         )}

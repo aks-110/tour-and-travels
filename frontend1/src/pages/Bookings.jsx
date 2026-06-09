@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi';
+import { useSocket } from '../hooks/useSocket';
 import {
   Calendar, User, MapPin, CreditCard, AlertCircle,
   CheckCircle2, XCircle, Search, RefreshCw, Clock,
@@ -306,8 +307,10 @@ export default function Bookings() {
   const [confirmModal, setConfirmModal] = useState(null); // booking id to confirm
   const [selectedBooking, setSelectedBooking] = useState(null); // For drawer
 
-  const fetchBookings = async (tab = activeTab) => {
-    setLoading(true);
+  const socket = useSocket();
+
+  const fetchBookings = async (tab = activeTab, quiet = false) => {
+    if (!quiet) setLoading(true);
     try {
       const data = await fetchWithAuth(`/bookings/admin/all?tab=${tab}`);
       setBookings(data);
@@ -315,13 +318,29 @@ export default function Bookings() {
       console.error('Failed to fetch bookings:', err);
       showToast('Failed to load bookings', 'error');
     } finally {
-      setLoading(false);
+      if (!quiet) setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchBookings(activeTab);
   }, [activeTab]);
+
+  useEffect(() => {
+    if (socket) {
+      const handleUpdate = () => {
+        fetchBookings(activeTab, true);
+      };
+      
+      socket.on('newBooking', handleUpdate);
+      socket.on('bookingUpdated', handleUpdate);
+      
+      return () => {
+        socket.off('newBooking', handleUpdate);
+        socket.off('bookingUpdated', handleUpdate);
+      };
+    }
+  }, [socket, activeTab]);
 
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });
