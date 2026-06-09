@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { getBreadcrumbSchema } from '../data/schemas';
 
 export default function PickupRouteGuide() {
   const [pickups, setPickups] = useState([]);
@@ -47,16 +50,29 @@ export default function PickupRouteGuide() {
 
   const activeTemplate = templates.find(t => t.pickupPointId?._id === selectedPickup?._id);
 
+  const breadcrumbs = [{ label: 'Home', to: '/' }, { label: 'Pickup Route Guide' }];
+  const schemas = [
+    getBreadcrumbSchema(breadcrumbs.map(b => ({ name: b.label, url: b.to })))
+  ];
+
   if (loading) {
     return <div className="min-h-screen bg-ivory flex items-center justify-center pt-20">Loading...</div>;
   }
 
   return (
     <div className="bg-ivory min-h-screen pt-[72px] md:pt-[88px] text-earth">
+      <SEO 
+        title="Pickup & Route Guide | Varanasi SN Tour & Travels" 
+        description="Explore our available pickup locations in Varanasi, Prayagraj, Ayodhya, and Gaya. Preview your spiritual journey route before you book."
+        keywords="Varanasi pickup locations, tour route guide Varanasi, spiritual tour routes India"
+        url="/pickup-route-guide"
+        schemaData={schemas}
+      />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
         <div className="w-full relative z-10 text-center">
+          <Breadcrumbs items={breadcrumbs} className="justify-center mb-6" />
           <motion.span 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -71,7 +87,7 @@ export default function PickupRouteGuide() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="font-serif text-4xl md:text-5xl font-light mb-4"
           >
-            Pickup & Route Guide
+            Varanasi Tour Pickup & Route Guide
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}

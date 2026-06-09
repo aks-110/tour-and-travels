@@ -4,6 +4,8 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import SacredDestinations from '../components/SacredDestinations';
 import SEO from '../components/SEO';
+import FAQSection from '../components/FAQSection';
+import { getFAQSchema, getLocalBusinessSchema } from '../data/schemas';
 
 const formatStat = (num) => {
   if (num === undefined || num === null) return '';
@@ -151,26 +153,26 @@ export default function Home() {
 
   const displayReviews = [...apiReviews, ...reviews];
 
+  const faqs = [
+    { question: 'What is the best time to visit Varanasi?', answer: 'The best time to visit Varanasi is from October to March when the weather is cool and pleasant, ideal for sightseeing and boat rides.' },
+    { question: 'Do you provide VIP darshan at Kashi Vishwanath?', answer: 'Yes, we specialize in arranging VIP Sugam Darshan at Kashi Vishwanath Temple, helping you skip the long regular queues.' },
+    { question: 'Are your tour packages customizable?', answer: 'Absolutely! All our tour packages for Varanasi, Ayodhya, Prayagraj, and Nepal are 100% customizable to suit your schedule, budget, and preferences.' },
+    { question: 'Do you provide airport taxi services?', answer: 'Yes, we offer reliable 24/7 airport pickup and drop services from Lal Bahadur Shastri International Airport (VNS) at fixed, transparent prices.' }
+  ];
+
+  const schemas = [
+    getLocalBusinessSchema(),
+    getFAQSchema(faqs)
+  ];
+
   return (
     <main className="bg-ivory text-charcoal">
-      <SEO 
-        title="Varanasi SN Tour & Travels - Premium Packages" 
-        description="Explore Varanasi, Ayodhya, Prayagraj, Kashi with Varanasi SN Tours & Travels. Book customized tours, taxi services, spiritual journeys and premium travel packages."
+     <SEO 
+        title="Varanasi Tour Packages — Trusted Travel Agency in Varanasi"
+        description="Varanasi SN Tour & Travels offers premium Varanasi tours, Ayodhya trips, Prayagraj packages, Nepal tours, taxi services and customized spiritual travel experiences."
+        keywords="Varanasi travel agency, Varanasi tour packages, Kashi Vishwanath darshan, Varanasi taxi service, spiritual tour India"
         url="/"
-        schemaData={{
-          "@context": "https://schema.org",
-          "@type": "TravelAgency",
-          "name": "Varanasi Travels",
-          "url": "https://www.varanasisntours.com",
-          "logo": "https://www.varanasisntours.com/favicon.svg",
-          "description": "Explore Varanasi, Ayodhya, Prayagraj, Kashi with Varanasi SN Tours & Travels. Book customized tours, taxi services, spiritual journeys and premium travel packages.",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Varanasi",
-            "addressRegion": "Uttar Pradesh",
-            "addressCountry": "IN"
-          }
-        }}
+        schemaData={schemas}
       />
       {/* Hero Section */}
       <style>
@@ -200,8 +202,8 @@ export default function Home() {
             </div>
             
             <h1 className="font-serif text-white text-3xl sm:text-4xl md:text-5xl lg:text-[4rem] font-bold leading-[1.1] mb-6 drop-shadow-md">
-              VARANASI SN TOUR & TRAVELS<br />
-              <span className="text-gold font-medium">GUIDE SERVICES</span>
+              Varanasi Tour Packages —<br />
+              <span className="text-gold font-medium text-3xl sm:text-4xl md:text-5xl">Trusted Travel Agency in Varanasi</span>
             </h1>
             
             <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium mb-8 max-w-xl drop-shadow-md">
@@ -383,7 +385,7 @@ export default function Home() {
                   className="relative group w-64 md:w-80 h-48 md:h-64 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex-shrink-0 cursor-pointer"
                   onClick={() => setSelectedImage(url)}
                 >
-                  <img src={url} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={url} alt="Varanasi tour package gallery image" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/20 transition-colors duration-300 flex items-center justify-center">
                     <span className="text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">+</span>
                   </div>
@@ -396,7 +398,7 @@ export default function Home() {
                   className="relative group w-64 md:w-80 h-48 md:h-64 rounded-xl overflow-hidden shadow-2xl border border-white/10 flex-shrink-0 cursor-pointer"
                   onClick={() => setSelectedImage(url)}
                 >
-                  <img src={url} alt="Gallery image" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={url} alt="Varanasi tour package gallery image" loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/20 transition-colors duration-300 flex items-center justify-center">
                     <span className="text-white text-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">+</span>
                   </div>
@@ -517,13 +519,15 @@ export default function Home() {
             </button>
             <img 
               src={selectedImage} 
-              alt="Full size" 
+              alt="Varanasi SN Tour & Travels gallery image" 
               className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl" 
               onClick={(e) => e.stopPropagation()} 
             />
           </div>
         </div>
       )}
+
+      <FAQSection faqs={faqs} title="Frequently Asked Questions" />
     </main>
   );
 }

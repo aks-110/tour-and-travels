@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { getBreadcrumbSchema } from '../data/schemas';
 
 export default function Hotels() {
   const [apiHotels, setApiHotels] = useState([]);
@@ -51,21 +53,30 @@ export default function Hotels() {
 
   const displayHotels = apiHotels.length > 0 ? apiHotels : defaultHotels;
 
+  const breadcrumbs = [{ label: 'Home', to: '/' }, { label: 'Hotels' }];
+  const schemas = [
+    getBreadcrumbSchema(breadcrumbs.map(b => ({ name: b.label, url: b.to })))
+  ];
+
   return (
     <main className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
       <SEO 
-        title="Hotels & Stays" 
+        title="Best Hotels in Varanasi | Premium & Budget Accommodations" 
         description="Find the best premium hotels, budget stays, and ashrams in Varanasi, Prayagraj, and Ayodhya with Varanasi SN Tours & Travels."
+        keywords="hotels in Varanasi, best hotels in Varanasi, Varanasi accommodation, premium hotels Kashi, budget stay Varanasi"
         url="/hotels"
+        schemaData={schemas}
       />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
         <div className="w-full relative z-10 text-center">
           <span className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-2 block">Accommodation Services</span>
-          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Hotel & Stay Specifications</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Best Hotels in Varanasi</h1>
         </div>
       </div>
+
+      <Breadcrumbs items={breadcrumbs} />
 
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 py-12">
         <div className="mb-16">

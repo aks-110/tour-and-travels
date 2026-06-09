@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { getBreadcrumbSchema } from '../data/schemas';
 
 export default function CarRentals() {
   const [apiCars, setApiCars] = useState([]);
@@ -52,21 +54,30 @@ export default function CarRentals() {
 
   const displayCars = apiCars.length > 0 ? apiCars : defaultCars;
 
+  const breadcrumbs = [{ label: 'Home', to: '/' }, { label: 'Car Rentals' }];
+  const schemas = [
+    getBreadcrumbSchema(breadcrumbs.map(b => ({ name: b.label, url: b.to })))
+  ];
+
   return (
     <main className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
       <SEO 
-        title="Car & Taxi Rentals" 
-        description="Book premium taxi services and car rentals with Varanasi SN Tours & Travels for safe and comfortable journeys across Kashi, Ayodhya, and Prayagraj."
+        title="Varanasi Taxi Service & Car Rentals | Affordable Rates" 
+        description="Book reliable and affordable Varanasi taxi services, airport transfers, and outstation car rentals. Premium fleet for your spiritual journey."
+        keywords="Varanasi taxi service, car rental in Varanasi, Varanasi airport taxi, cab service Varanasi, taxi for outstation Varanasi"
         url="/car-rentals"
+        schemaData={schemas}
       />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
         <div className="w-full relative z-10 text-center">
           <span className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-2 block">Transportation Services</span>
-          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Fleet & Vehicle Specifications</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Varanasi Taxi Service & Car Rentals</h1>
         </div>
       </div>
+
+      <Breadcrumbs items={breadcrumbs} />
 
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 py-12">
         <div className="mb-16">

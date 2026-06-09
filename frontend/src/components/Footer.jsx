@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
           
           {/* Quick Links */}
-          <div className="md:col-span-3">
+          <div className="md:col-span-2">
             <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
               <span className="text-gold-dark text-sm">✦</span> Quick Links
             </h4>
@@ -100,11 +100,26 @@ export default function Footer() {
               <li><Link to="/tour-packages" className="text-ivory/60 hover:text-gold transition-colors text-sm">Tour Packages</Link></li>
               <li><Link to="/car-rentals" className="text-ivory/60 hover:text-gold transition-colors text-sm">Car Rentals</Link></li>
               <li><Link to="/hotels" className="text-ivory/60 hover:text-gold transition-colors text-sm">Hotels</Link></li>
+              <li><Link to="/blog" className="text-ivory/60 hover:text-gold transition-colors text-sm">Travel Blog</Link></li>
+            </ul>
+          </div>
+
+          {/* Top Services */}
+          <div className="md:col-span-2">
+            <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
+              <span className="text-gold-dark text-sm">✦</span> Top Services
+            </h4>
+            <ul className="space-y-3">
+              <li><Link to="/varanasi-tour-package" className="text-ivory/60 hover:text-gold transition-colors text-sm">Varanasi Tour</Link></li>
+              <li><Link to="/kashi-vishwanath-tour" className="text-ivory/60 hover:text-gold transition-colors text-sm">Kashi Darshan</Link></li>
+              <li><Link to="/ayodhya-tour-package" className="text-ivory/60 hover:text-gold transition-colors text-sm">Ayodhya Tour</Link></li>
+              <li><Link to="/varanasi-airport-taxi" className="text-ivory/60 hover:text-gold transition-colors text-sm">Airport Taxi</Link></li>
+              <li><Link to="/spiritual-tour-india" className="text-ivory/60 hover:text-gold transition-colors text-sm">Spiritual Tours</Link></li>
             </ul>
           </div>
           
           {/* Contact Info */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-3">
             <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
               <span className="text-gold-dark text-sm">✦</span> Contact Us
             </h4>
@@ -123,7 +138,7 @@ export default function Footer() {
               </li>
               <li className="text-ivory/80 text-sm flex items-center gap-3">
                 <span className="text-gold">✉️</span> 
-                <a href="mailto:varanasisntourandtravels@gmail.com" className="hover:text-gold transition-colors">varanasisntourandtravels@gmail.com</a>
+                <a href="mailto:varanasisntourandtravels@gmail.com" className="hover:text-gold transition-colors break-all">varanasisntourandtravels@gmail.com</a>
               </li>
             </ul>
           </div>

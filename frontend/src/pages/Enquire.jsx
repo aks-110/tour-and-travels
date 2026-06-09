@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { getBreadcrumbSchema } from '../data/schemas';
 
 export default function Enquire() {
   const navigate = useNavigate();
@@ -40,11 +43,24 @@ export default function Enquire() {
     }
   };
 
+  const breadcrumbs = [{ label: 'Home', to: '/' }, { label: 'Enquire Now' }];
+  const schemas = [
+    getBreadcrumbSchema(breadcrumbs.map(b => ({ name: b.label, url: b.to })))
+  ];
+
   return (
     <div className="bg-ivory text-earth pt-32 pb-20 min-h-screen">
+      <SEO 
+        title="Enquire Now | Varanasi SN Tour & Travels" 
+        description="Fill out our enquiry form to get a free, customized itinerary for your Varanasi, Ayodhya, or Prayagraj tour package within 2 hours."
+        keywords="enquire Varanasi tour, contact travel agency Varanasi, custom tour package India, book Varanasi taxi"
+        url="/enquire-now"
+        schemaData={schemas}
+      />
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 max-w-2xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Plan Your Pilgrimage</h1>
+          <Breadcrumbs items={breadcrumbs} className="justify-center mb-6" />
+          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Enquire Now for Custom Tour Packages</h1>
           <p className="text-earth-400">Fill out the details below to receive a free, customized itinerary within 2 hours.</p>
         </div>
 

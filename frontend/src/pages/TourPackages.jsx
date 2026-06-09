@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { getBreadcrumbSchema } from '../data/schemas';
 
 export default function TourPackages() {
   const [packages, setPackages] = useState([]);
@@ -15,22 +17,31 @@ export default function TourPackages() {
       .catch(err => console.error("Error fetching packages", err));
   }, []);
 
+  const breadcrumbs = [{ label: 'Home', to: '/' }, { label: 'Tour Packages' }];
+  const schemas = [
+    getBreadcrumbSchema(breadcrumbs.map(b => ({ name: b.label, url: b.to })))
+  ];
+
   return (
     <main className="bg-ivory text-earth pt-[72px] md:pt-[88px] relative min-h-screen">
       <SEO 
-        title="Tour Packages" 
-        description="Find the perfect carefully-crafted pilgrimage package that suits your schedule and preferences. Varanasi SN Tours & Travels offers customized tours."
+        title="Varanasi Tour Packages | Best Travel Agency in Varanasi" 
+        description="Book the best Varanasi tour packages, Ayodhya trips, and Kashi Vishwanath darshan tours. Affordable prices and 100% customizable itineraries."
+        keywords="Varanasi tour packages, Kashi tour, Ayodhya tour package, Prayagraj tour, Varanasi travel agency"
         url="/tour-packages"
+        schemaData={schemas}
       />
       {/* Header */}
       <div className="bg-black text-ivory py-16 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
         <div className="w-full relative z-10 text-center">
           <span className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-2 block">Explore Our Routes</span>
-          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Tour Packages</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-light mb-4">Varanasi Tour Packages</h1>
           <p className="text-ivory/70 max-w-2xl mx-auto">Find the perfect carefully-crafted pilgrimage package that suits your schedule and preferences.</p>
         </div>
       </div>
+
+      <Breadcrumbs items={breadcrumbs} />
 
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 py-12">
 

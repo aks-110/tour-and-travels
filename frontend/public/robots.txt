@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin/*
+Disallow: /*?*
+Disallow: /api/*
+
+Crawl-delay: 1
 
 Sitemap: https://www.varanasisntours.com/sitemap.xml
