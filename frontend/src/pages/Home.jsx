@@ -186,47 +186,129 @@ export default function Home() {
           }
         `}
       </style>
-      <section className="relative h-auto min-h-[750px] w-full overflow-hidden flex items-center pt-24 pb-16">
+      <section 
+        className="relative w-full overflow-hidden flex items-center"
+        style={{
+          minHeight: 'clamp(600px, 80vh, 900px)',
+          paddingTop: 'clamp(5rem, 4rem + 4vw, 8rem)',
+          paddingBottom: 'clamp(2rem, 1.5rem + 2vw, 4rem)',
+        }}
+      >
+        {/* Background image — object-position prevents awkward cropping on mobile */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img src="https://varanasiayodhya.com/images/varanasi-ghats-ganga-boats-evening.webp" alt="Varanasi" className="w-full h-full object-cover animate-hero-float" />
+          <img 
+            src="https://varanasiayodhya.com/images/varanasi-ghats-ganga-boats-evening.webp" 
+            alt="Varanasi ghats along the Ganga river at evening" 
+            className="w-full h-full object-cover animate-hero-float"
+            style={{ objectPosition: 'center 30%' }}
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30 pointer-events-none"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-black/40 pointer-events-none"></div>
         </div>
         
-        <div className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div 
+          className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 items-center"
+          style={{
+            padding: `0 clamp(1rem, 2vw + 0.5rem, 4rem)`,
+            gap: 'clamp(2rem, 2vw + 1rem, 3rem)',
+          }}
+        >
           <div className="lg:col-span-7">
+            {/* Badges */}
             <div className="mb-6 space-y-2">
-              <p className="text-gold bg-white/10 px-3 py-1 rounded-full inline-block font-sans text-[11px] font-bold tracking-widest uppercase backdrop-blur-sm">Experienced & Professional Guide</p>
+              <p className="text-gold bg-white/10 px-3 py-1 rounded-full inline-block font-sans font-bold tracking-widest uppercase backdrop-blur-sm" style={{ fontSize: 'clamp(0.6rem, 0.55rem + 0.15vw, 0.7rem)' }}>Experienced & Professional Guide</p>
               <br/>
-              <p className="text-white font-sans text-[11px] font-bold tracking-widest uppercase pl-1">100% Customer Satisfaction</p>
+              <p className="text-white font-sans font-bold tracking-widest uppercase pl-1" style={{ fontSize: 'clamp(0.6rem, 0.55rem + 0.15vw, 0.7rem)' }}>100% Customer Satisfaction</p>
             </div>
             
-            <h1 className="font-serif text-white text-3xl sm:text-4xl md:text-5xl lg:text-[4rem] font-bold leading-[1.1] mb-6 drop-shadow-md">
+            {/* Heading — fluid clamp() typography, no fixed breakpoint sizes */}
+            <h1 
+              className="font-serif text-white font-bold leading-[1.1] drop-shadow-md"
+              style={{ 
+                fontSize: 'clamp(1.75rem, 1rem + 4vw, 4rem)',
+                marginBottom: 'clamp(1rem, 0.75rem + 1vw, 1.5rem)',
+              }}
+            >
               Varanasi Tour Packages —<br />
-              <span className="text-gold font-medium text-3xl sm:text-4xl md:text-5xl">Trusted Travel Agency in Varanasi</span>
+              <span 
+                className="text-gold font-medium"
+                style={{ fontSize: 'clamp(1.5rem, 0.85rem + 3.5vw, 3.25rem)' }}
+              >
+                Trusted Travel Agency in Varanasi
+              </span>
             </h1>
             
-            <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium mb-8 max-w-xl drop-shadow-md">
+            {/* Description — fluid sizing */}
+            <p 
+              className="text-white/90 font-medium drop-shadow-md"
+              style={{
+                fontSize: 'clamp(0.875rem, 0.75rem + 0.5vw, 1.25rem)',
+                marginBottom: 'clamp(1.5rem, 1rem + 1vw, 2rem)',
+                maxWidth: 'min(36rem, 100%)',
+              }}
+            >
               KASHI | PRAYAGRAJ | GAYA | AYODHYA | VINDHYACHAL TO ALL INDIA<br />
               Travel with Joy & Happiness everywhere where is needed
             </p>
             
-            <div className="flex items-baseline gap-3 mb-10">
-              <span className="font-serif text-white text-3xl md:text-4xl font-bold drop-shadow-md">Reasonable Price</span>
+            {/* Price callout — fluid */}
+            <div 
+              className="flex items-baseline gap-3"
+              style={{ marginBottom: 'clamp(1.5rem, 1rem + 1.5vw, 2.5rem)' }}
+            >
+              <span 
+                className="font-serif text-white font-bold drop-shadow-md"
+                style={{ fontSize: 'clamp(1.5rem, 1.25rem + 1.5vw, 2.5rem)' }}
+              >
+                Reasonable Price
+              </span>
               <span className="text-white/70 text-sm font-medium">per person</span>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <a href="#" className="bg-gold hover:brightness-110 active:scale-95 transition-all text-charcoal font-bold text-sm px-8 py-3.5 rounded-full inline-flex items-center justify-center shadow-lg w-full sm:w-auto text-center">WhatsApp — Free Quote</a>
-              <Link to="/tour-packages" className="bg-transparent text-white border border-white/40 hover:bg-white hover:text-charcoal font-medium text-sm px-8 py-3.5 rounded-full inline-flex items-center justify-center transition-colors w-full sm:w-auto text-center">View All Packages</Link>
+            {/* CTA Buttons — flex-wrap for natural flow on small screens */}
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              <a 
+                href="#" 
+                className="bg-gold hover:brightness-110 hover:shadow-lg hover:shadow-gold/25 hover:-translate-y-0.5 active:scale-95 transition-all text-charcoal font-bold rounded-full inline-flex items-center justify-center shadow-lg text-center flex-1 sm:flex-initial"
+                style={{
+                  fontSize: 'clamp(0.8rem, 0.75rem + 0.2vw, 0.9rem)',
+                  padding: 'clamp(0.75rem, 0.6rem + 0.3vw, 1rem) clamp(1.5rem, 1.25rem + 0.5vw, 2rem)',
+                  minWidth: 'min(100%, 220px)',
+                }}
+              >
+                WhatsApp — Free Quote
+              </a>
+              <Link 
+                to="/tour-packages" 
+                className="bg-transparent text-white border border-white/40 hover:bg-white hover:text-charcoal font-medium rounded-full inline-flex items-center justify-center transition-all duration-300 text-center flex-1 sm:flex-initial"
+                style={{
+                  fontSize: 'clamp(0.8rem, 0.75rem + 0.2vw, 0.9rem)',
+                  padding: 'clamp(0.75rem, 0.6rem + 0.3vw, 1rem) clamp(1.5rem, 1.25rem + 0.5vw, 2rem)',
+                  minWidth: 'min(100%, 200px)',
+                }}
+              >
+                View All Packages
+              </Link>
             </div>
           </div>
           
-          <div className="lg:col-span-5 relative mt-8 lg:mt-0">
-            <div className="relative bg-white p-7 md:p-8 shadow-2xl rounded-2xl border border-gray-100">
+          {/* Enquiry Card — responsive padding with clamp() */}
+          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
+            <div 
+              className="relative bg-white shadow-2xl rounded-2xl border border-gray-100"
+              style={{ padding: 'clamp(1.25rem, 1rem + 1.5vw, 2rem)' }}
+            >
               <p className="font-sans text-xs font-bold tracking-widest text-gold uppercase mb-2">Fast Enquiry · 30 Seconds</p>
-              <p className="font-serif text-3xl font-bold text-gray-900 mb-2 leading-tight">Free itinerary in <span className="text-gold">2 hours</span>.</p>
-              <p className="text-gray-500 text-sm font-medium mb-6">Tell us when and how many. We handle the rest.</p>
+              <p 
+                className="font-serif font-bold text-gray-900 leading-tight"
+                style={{ 
+                  fontSize: 'clamp(1.5rem, 1.25rem + 1vw, 1.875rem)',
+                  marginBottom: 'clamp(0.25rem, 0.5vw, 0.5rem)',
+                }}
+              >
+                Free itinerary in <span className="text-gold">2 hours</span>.
+              </p>
+              <p className="text-gray-500 text-sm font-medium" style={{ marginBottom: 'clamp(1rem, 0.75rem + 0.5vw, 1.5rem)' }}>Tell us when and how many. We handle the rest.</p>
               
               <form className="space-y-4">
                 <div>
