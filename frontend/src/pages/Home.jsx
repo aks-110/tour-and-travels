@@ -229,7 +229,7 @@ export default function Home() {
                 marginBottom: 'clamp(1rem, 0.75rem + 1vw, 1.5rem)',
               }}
             >
-              Varanasi Tour Packages —<br />
+              Varanasi SN Tour & Travels<br />
               <span 
                 className="text-gold font-medium"
                 style={{ fontSize: 'clamp(1.5rem, 0.85rem + 3.5vw, 3.25rem)' }}
