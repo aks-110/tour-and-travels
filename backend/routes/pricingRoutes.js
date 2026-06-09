@@ -14,36 +14,40 @@ router.post('/calculate', pc.calculateFare);
 // ─────────────────────────────────────────
 // ADMIN ROUTES (Protected by Clerk Auth)
 // ─────────────────────────────────────────
-router.use('/admin', clerkAuth);
+const adminRouter = express.Router();
+adminRouter.use(clerkAuth);
 
 // Routes management
-router.get('/admin/routes', pc.adminGetRoutes);
-router.post('/admin/routes', pc.adminCreateRoute);
-router.put('/admin/routes/:id', pc.adminUpdateRoute);
-router.delete('/admin/routes/:id', pc.adminDeleteRoute);
+adminRouter.get('/routes', pc.adminGetRoutes);
+adminRouter.post('/routes', pc.adminCreateRoute);
+adminRouter.put('/routes/:id', pc.adminUpdateRoute);
+adminRouter.delete('/routes/:id', pc.adminDeleteRoute);
 
 // Vehicle categories
-router.get('/admin/categories', pc.adminGetCategories);
-router.post('/admin/categories', pc.adminCreateCategory);
-router.put('/admin/categories/:id', pc.adminUpdateCategory);
-router.delete('/admin/categories/:id', pc.adminDeleteCategory);
+adminRouter.get('/categories', pc.adminGetCategories);
+adminRouter.post('/categories', pc.adminCreateCategory);
+adminRouter.put('/categories/:id', pc.adminUpdateCategory);
+adminRouter.delete('/categories/:id', pc.adminDeleteCategory);
 
 // Vehicles
-router.get('/admin/vehicles', pc.adminGetVehicles);
-router.post('/admin/vehicles', pc.adminCreateVehicle);
-router.put('/admin/vehicles/:id', pc.adminUpdateVehicle);
-router.delete('/admin/vehicles/:id', pc.adminDeleteVehicle);
+adminRouter.get('/vehicles', pc.adminGetVehicles);
+adminRouter.post('/vehicles', pc.adminCreateVehicle);
+adminRouter.put('/vehicles/:id', pc.adminUpdateVehicle);
+adminRouter.delete('/vehicles/:id', pc.adminDeleteVehicle);
 
 // Pricing rules
-router.get('/admin/pricing-rules', pc.adminGetPricingRules);
-router.post('/admin/pricing-rules', pc.adminCreatePricingRule);
-router.put('/admin/pricing-rules/:id', pc.adminUpdatePricingRule);
-router.delete('/admin/pricing-rules/:id', pc.adminDeletePricingRule);
+adminRouter.get('/pricing-rules', pc.adminGetPricingRules);
+adminRouter.post('/pricing-rules', pc.adminCreatePricingRule);
+adminRouter.put('/pricing-rules/:id', pc.adminUpdatePricingRule);
+adminRouter.delete('/pricing-rules/:id', pc.adminDeletePricingRule);
 
 // Offers
-router.get('/admin/offers', pc.adminGetOffers);
-router.post('/admin/offers', pc.adminCreateOffer);
-router.put('/admin/offers/:id', pc.adminUpdateOffer);
-router.delete('/admin/offers/:id', pc.adminDeleteOffer);
+adminRouter.get('/offers', pc.adminGetOffers);
+adminRouter.post('/offers', pc.adminCreateOffer);
+adminRouter.put('/offers/:id', pc.adminUpdateOffer);
+adminRouter.delete('/offers/:id', pc.adminDeleteOffer);
+
+// Mount the admin router
+router.use('/admin', adminRouter);
 
 module.exports = router;
