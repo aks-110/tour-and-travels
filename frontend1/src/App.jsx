@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import Packages from './pages/Packages';
 import PackageEditor from './pages/PackageEditor';
 import RouteManagement from './pages/RouteManagement';
+import PriceManagement from './pages/PriceManagement';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/packages" element={<Packages />} />
             <Route path="/packages/edit/:id" element={<PackageEditor />} />
             <Route path="/route-management" element={<RouteManagement />} />
+            <Route path="/price-management" element={<PriceManagement />} />
 
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/settings" element={<Settings />} />

@@ -81,47 +81,32 @@ export default function TourPackages() {
 
                 <div className="flex items-end justify-between w-full gap-2">
                   <div className="flex-1 min-w-0">
-                    <p className="text-[9px] text-earth/50 uppercase tracking-widest font-bold mb-1">Starting from</p>
-                    
-                    {pkg.oldPrice && pkg.discountPercentage > 0 && (
-                      <div className="flex items-center gap-1.5 mb-0.5">
-                        <span className="text-xs text-earth/50 font-semibold line-through decoration-earth/30">
-                          ₹{pkg.oldPrice}
-                        </span>
-                        <span className="text-[9px] font-bold text-green-700 bg-green-50 border border-green-200 px-1 py-0.5 rounded-sm shadow-sm flex items-center gap-0.5 whitespace-nowrap">
-                          {pkg.discountPercentage}% OFF
-                        </span>
-                      </div>
+                    {pkg.currentPrice ? (
+                      <>
+                        <p className="text-[9px] text-earth/50 uppercase tracking-widest font-bold mb-1">Starting from</p>
+                        <div className="flex items-baseline gap-1">
+                          <span className="font-serif text-lg font-semibold text-earth/70 truncate">
+                            ₹{pkg.currentPrice}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-[10px] text-gold uppercase tracking-widest font-bold">Get Custom Quote</p>
                     )}
-                    
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-serif text-2xl font-semibold text-earth drop-shadow-sm truncate">
-                        ₹{pkg.currentPrice}
-                      </span>
-                    </div>
                   </div>
                   
-                  <div className="flex flex-col gap-2 shrink-0 w-[42%] max-w-[110px]">
-                    <Link
-                      to="/enquire-now"
-                      onClick={(e) => e.stopPropagation()}
-                      className="w-full flex items-center justify-center overflow-hidden rounded-md bg-white border border-earth/20 px-2 py-1.5 font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-black transition-all hover:bg-black hover:text-white"
-                    >
-                      Visit Now
-                    </Link>
-                    <button 
-                      className="group/btn w-full relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-gold px-2 py-1.5 font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-charcoal transition-all hover:bg-black hover:text-white"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/package/${pkg._id || pkg.legacyId}`);
-                      }}
-                    >
-                      <span className="relative z-10">Details</span>
-                      <svg className="relative z-10 h-3 w-3 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </button>
-                  </div>
+                  <button 
+                    className="group/btn shrink-0 relative flex items-center justify-center gap-1 overflow-hidden rounded-md bg-gold px-3 py-2 font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-charcoal transition-all hover:bg-black hover:text-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/package/${pkg._id || pkg.legacyId}`);
+                    }}
+                  >
+                    <span className="relative z-10">View Details</span>
+                    <svg className="relative z-10 h-3 w-3 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>

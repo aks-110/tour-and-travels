@@ -376,12 +376,10 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                   
-                  {/* Discount Tag */}
-                  {pkg.discountPercentage > 0 && (
-                    <div className="absolute top-4 right-4 bg-[#f59e0b] text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-md shadow-lg tracking-wider">
-                      {pkg.discountPercentage}% OFF
-                    </div>
-                  )}
+                  {/* Location badge */}
+                  <div className="absolute top-4 right-4 bg-white/15 backdrop-blur-md text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-md shadow-lg tracking-wider border border-white/20">
+                    {pkg.location || 'Varanasi'}
+                  </div>
 
                   {/* Large Number Overlay */}
                   <div className="absolute bottom-3 left-5">
@@ -393,30 +391,20 @@ export default function Home() {
 
                 {/* Content Section */}
                 <div className="p-5 md:p-7 flex flex-col grow">
-                  {/* Header Row: Tag & Price */}
-                  <div className="flex justify-between items-center mb-4">
-                    <p className="font-sans text-[9px] md:text-[10px] font-extrabold tracking-[0.2em] uppercase text-gray-500">
-                      {pkg.tag || pkg.subtitle || 'Pilgrimage'}
-                    </p>
-                    <div className="text-right flex flex-col items-end">
-                      {pkg.oldPrice && pkg.discountPercentage > 0 && (
-                        <span className="text-[10px] md:text-xs text-red-500 font-semibold line-through decoration-red-500/40 mb-0.5">
-                          ₹{pkg.oldPrice}
-                        </span>
-                      )}
-                      <p className="font-serif text-xl md:text-2xl font-bold text-gray-900 leading-none">
-                        ₹{pkg.currentPrice}
-                      </p>
-                    </div>
-                  </div>
+                  <p className="font-sans text-[9px] md:text-[10px] font-extrabold tracking-[0.2em] uppercase text-gray-500 mb-4">
+                    {pkg.tag || pkg.subtitle || 'Pilgrimage'}
+                  </p>
 
                   {/* Title & Description */}
                   <h3 className="font-serif text-xl md:text-2xl lg:text-[28px] font-medium text-gray-900 group-hover:text-[#f59e0b] transition-colors mb-3 leading-tight line-clamp-1">
                     {pkg.title}
                   </h3>
-                  <p className="text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-2">
+                  <p className="text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-2 mb-4">
                     {pkg.overview}
                   </p>
+                  <div className="mt-auto pt-3 border-t border-gray-100 flex justify-between items-center">
+                    <span className="text-[10px] font-bold text-gold uppercase tracking-wider">View Details →</span>
+                  </div>
                 </div>
               </div>
             )) : (

@@ -1,0 +1,408 @@
+import { useState, useEffect } from 'react';
+import { Plus, Edit2, Trash2, CheckCircle2, XCircle } from 'lucide-react';
+import { useApi } from '../hooks/useApi';
+
+const TABS = [
+  { id: 'routes', label: 'Routes' },
+  { id: 'categories', label: 'Vehicle Categories' },
+  { id: 'vehicles', label: 'Vehicles' },
+  { id: 'pricing-rules', label: 'Pricing Rules' },
+  { id: 'offers', label: 'Offers' }
+];
+
+export default function PriceManagement() {
+  const { fetchWithAuth } = useApi();
+  const [activeTab, setActiveTab] = useState('routes');
+  const [data, setData] = useState({
+    routes: [],
+    categories: [],
+    vehicles: [],
+    'pricing-rules': [],
+    offers: []
+  });
+  const [loading, setLoading] = useState(false);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    fetchData(activeTab);
+  }, [activeTab]);
+
+  const fetchData = async (tab) => {
+    setLoading(true);
+    try {
+      const res = await fetchWithAuth(`/pricing/admin/${tab}`);
+      setData(prev => ({ ...prev, [tab]: res }));
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenModal = (item = null) => {
+    setEditingItem(item);
+    if (item) {
+      // Form date parsing for offers
+      let initData = { ...item };
+      if (activeTab === 'offers') {
+        initData.startDate = item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : '';
+        initData.endDate = item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : '';
+      }
+      setFormData(initData);
+    } else {
+      setFormData({ active: true });
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingItem(null);
+    setFormData({});
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      const method = editingItem ? 'PUT' : 'POST';
+      const url = editingItem 
+        ? `/pricing/admin/${activeTab}/${editingItem._id}` 
+        : `/pricing/admin/${activeTab}`;
+        
+      await fetchWithAuth(url, {
+        method,
+        body: JSON.stringify(formData)
+      });
+      
+      handleCloseModal();
+      fetchData(activeTab);
+    } catch (err) {
+      console.error('Error saving:', err);
+      alert('Error saving data: ' + err.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    try {
+      await fetchWithAuth(`/pricing/admin/${activeTab}/${id}`, { method: 'DELETE' });
+      fetchData(activeTab);
+    } catch (err) {
+      console.error('Error deleting:', err);
+      alert('Error deleting: ' + err.message);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  // -------------------------------------------------------------
+  // Dynamic Form Rendering
+  // -------------------------------------------------------------
+  const renderFormFields = () => {
+    switch (activeTab) {
+      case 'routes': return (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Source City</label>
+            <input required name="sourceCity" value={formData.sourceCity || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Destination City</label>
+            <input required name="destinationCity" value={formData.destinationCity || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Distance (KM)</label>
+            <input required type="number" min="1" name="distanceKm" value={formData.distanceKm || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4 flex items-center gap-2">
+            <input type="checkbox" name="active" checked={formData.active !== false} onChange={handleChange} />
+            <label className="text-sm">Active</label>
+          </div>
+        </>
+      );
+      case 'categories': return (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Category Name</label>
+            <input required name="name" value={formData.name || ''} onChange={handleChange} placeholder="e.g. Premium" className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Display Order</label>
+            <input type="number" name="displayOrder" value={formData.displayOrder || 0} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4 flex items-center gap-2">
+            <input type="checkbox" name="active" checked={formData.active !== false} onChange={handleChange} />
+            <label className="text-sm">Active</label>
+          </div>
+        </>
+      );
+      case 'vehicles': return (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Vehicle Name</label>
+            <input required name="name" value={formData.name || ''} onChange={handleChange} placeholder="e.g. Innova Crysta" className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <select required name="categoryId" value={formData.categoryId || (formData.categoryId?._id) || ''} onChange={handleChange} className="w-full border rounded p-2">
+              <option value="">Select Category</option>
+              {data.categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Min Travellers</label>
+              <input required type="number" min="1" name="minTravellers" value={formData.minTravellers || 1} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Max Travellers</label>
+              <input required type="number" min="1" name="maxTravellers" value={formData.maxTravellers || ''} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Min Seats</label>
+              <input required type="number" min="1" name="minSeats" value={formData.minSeats || 1} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Max Seats</label>
+              <input required type="number" min="1" name="maxSeats" value={formData.maxSeats || ''} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+          </div>
+          <div className="mb-4 flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <input type="checkbox" name="supportsAC" checked={formData.supportsAC !== false} onChange={handleChange} />
+              <label className="text-sm">Supports AC</label>
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="checkbox" name="supportsNonAC" checked={formData.supportsNonAC !== false} onChange={handleChange} />
+              <label className="text-sm">Supports Non-AC</label>
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="checkbox" name="active" checked={formData.active !== false} onChange={handleChange} />
+              <label className="text-sm">Active</label>
+            </div>
+          </div>
+        </>
+      );
+      case 'pricing-rules': return (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Vehicle</label>
+            <select required name="vehicleId" value={formData.vehicleId || (formData.vehicleId?._id) || ''} onChange={handleChange} className="w-full border rounded p-2">
+              <option value="">Select Vehicle</option>
+              {data.vehicles.map(v => <option key={v._id} value={v._id}>{v.name}</option>)}
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Base Price Per KM (₹)</label>
+            <input required type="number" min="0" step="0.5" name="basePricePerKm" value={formData.basePricePerKm || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">AC Surcharge Per KM (₹)</label>
+            <input required type="number" min="0" step="0.5" name="acSurchargePerKm" value={formData.acSurchargePerKm || 0} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4 flex items-center gap-2">
+            <input type="checkbox" name="active" checked={formData.active !== false} onChange={handleChange} />
+            <label className="text-sm">Active</label>
+          </div>
+        </>
+      );
+      case 'offers': return (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Offer Name</label>
+            <input required name="name" value={formData.name || ''} onChange={handleChange} placeholder="e.g. Summer Special" className="w-full border rounded p-2" />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Discount (%)</label>
+            <input required type="number" min="0" max="100" name="discountPercentage" value={formData.discountPercentage || ''} onChange={handleChange} className="w-full border rounded p-2" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Start Date</label>
+              <input required type="date" name="startDate" value={formData.startDate || ''} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">End Date</label>
+              <input required type="date" name="endDate" value={formData.endDate || ''} onChange={handleChange} className="w-full border rounded p-2" />
+            </div>
+          </div>
+          <div className="mb-4 flex items-center gap-2">
+            <input type="checkbox" name="active" checked={formData.active !== false} onChange={handleChange} />
+            <label className="text-sm">Active</label>
+          </div>
+        </>
+      );
+      default: return null;
+    }
+  };
+
+  // -------------------------------------------------------------
+  // Dynamic Table Rendering
+  // -------------------------------------------------------------
+  const renderTableHead = () => {
+    switch (activeTab) {
+      case 'routes': return (<tr><th className="p-3 text-left">Source</th><th className="p-3 text-left">Destination</th><th className="p-3 text-left">Distance (KM)</th><th className="p-3 text-left">Status</th><th className="p-3 text-right">Actions</th></tr>);
+      case 'categories': return (<tr><th className="p-3 text-left">Name</th><th className="p-3 text-left">Order</th><th className="p-3 text-left">Status</th><th className="p-3 text-right">Actions</th></tr>);
+      case 'vehicles': return (<tr><th className="p-3 text-left">Name</th><th className="p-3 text-left">Category</th><th className="p-3 text-left">Capacity</th><th className="p-3 text-left">Status</th><th className="p-3 text-right">Actions</th></tr>);
+      case 'pricing-rules': return (<tr><th className="p-3 text-left">Vehicle</th><th className="p-3 text-left">Base/KM</th><th className="p-3 text-left">AC Surcharge/KM</th><th className="p-3 text-left">Status</th><th className="p-3 text-right">Actions</th></tr>);
+      case 'offers': return (<tr><th className="p-3 text-left">Name</th><th className="p-3 text-left">Discount</th><th className="p-3 text-left">Valid Until</th><th className="p-3 text-left">Status</th><th className="p-3 text-right">Actions</th></tr>);
+      default: return null;
+    }
+  };
+
+  const renderTableRow = (item) => {
+    const activeBadge = item.active ? <span className="text-green-600 flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Active</span> : <span className="text-red-500 flex items-center gap-1"><XCircle className="w-4 h-4" /> Inactive</span>;
+    
+    switch (activeTab) {
+      case 'routes': return (
+        <tr key={item._id} className="border-t border-zinc-100 hover:bg-zinc-50">
+          <td className="p-3">{item.sourceCity}</td>
+          <td className="p-3">{item.destinationCity}</td>
+          <td className="p-3">{item.distanceKm}</td>
+          <td className="p-3">{activeBadge}</td>
+          <td className="p-3 text-right">
+            <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+          </td>
+        </tr>
+      );
+      case 'categories': return (
+        <tr key={item._id} className="border-t border-zinc-100 hover:bg-zinc-50">
+          <td className="p-3 font-medium">{item.name}</td>
+          <td className="p-3">{item.displayOrder}</td>
+          <td className="p-3">{activeBadge}</td>
+          <td className="p-3 text-right">
+            <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+          </td>
+        </tr>
+      );
+      case 'vehicles': return (
+        <tr key={item._id} className="border-t border-zinc-100 hover:bg-zinc-50">
+          <td className="p-3 font-medium">{item.name}</td>
+          <td className="p-3">{item.categoryId?.name || '-'}</td>
+          <td className="p-3 text-sm text-zinc-500">{item.maxTravellers} pax, {item.maxSeats} seats</td>
+          <td className="p-3">{activeBadge}</td>
+          <td className="p-3 text-right">
+            <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+          </td>
+        </tr>
+      );
+      case 'pricing-rules': return (
+        <tr key={item._id} className="border-t border-zinc-100 hover:bg-zinc-50">
+          <td className="p-3 font-medium">{item.vehicleId?.name || '-'}</td>
+          <td className="p-3">₹{item.basePricePerKm}</td>
+          <td className="p-3">₹{item.acSurchargePerKm}</td>
+          <td className="p-3">{activeBadge}</td>
+          <td className="p-3 text-right">
+            <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+          </td>
+        </tr>
+      );
+      case 'offers': return (
+        <tr key={item._id} className="border-t border-zinc-100 hover:bg-zinc-50">
+          <td className="p-3 font-medium">{item.name}</td>
+          <td className="p-3">{item.discountPercentage}%</td>
+          <td className="p-3 text-sm text-zinc-500">{new Date(item.endDate).toLocaleDateString()}</td>
+          <td className="p-3">{activeBadge}</td>
+          <td className="p-3 text-right">
+            <button onClick={() => handleOpenModal(item)} className="p-1 text-blue-600 hover:bg-blue-50 rounded"><Edit2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDelete(item._id)} className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"><Trash2 className="w-4 h-4" /></button>
+          </td>
+        </tr>
+      );
+      default: return null;
+    }
+  };
+
+  // If loading dependent data for selects (vehicles needs categories, rules needs vehicles)
+  useEffect(() => {
+    if (activeTab === 'vehicles' && data.categories.length === 0) fetchData('categories');
+    if (activeTab === 'pricing-rules' && data.vehicles.length === 0) fetchData('vehicles');
+  }, [activeTab]);
+
+  return (
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-900 leading-tight">Price Management</h1>
+          <p className="text-zinc-500 text-sm mt-1">Configure dynamic pricing rules for the fare calculator</p>
+        </div>
+        <button 
+          onClick={() => handleOpenModal()} 
+          className="flex items-center justify-center gap-2 bg-zinc-900 text-white px-4 py-2.5 rounded-lg hover:bg-zinc-800 transition-colors w-full sm:w-auto shrink-0 shadow-sm"
+        >
+          <Plus className="w-4 h-4" /> Add New
+        </button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex border-b border-zinc-200 mb-6 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        {TABS.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+              activeTab === tab.id ? 'border-zinc-900 text-zinc-900' : 'border-transparent text-zinc-500 hover:text-zinc-700 hover:border-zinc-300'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Data Table */}
+      <div className="bg-white rounded-xl shadow-sm border border-zinc-200 overflow-hidden mb-8">
+        {loading ? (
+          <div className="p-8 text-center text-zinc-500">Loading...</div>
+        ) : data[activeTab].length === 0 ? (
+          <div className="p-8 text-center text-zinc-500">No {TABS.find(t => t.id === activeTab)?.label.toLowerCase()} found. Create one to get started.</div>
+        ) : (
+          <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            <table className="w-full text-sm min-w-[600px]">
+              <thead className="bg-zinc-50 text-zinc-500 border-b border-zinc-200">
+                {renderTableHead()}
+              </thead>
+              <tbody>
+                {data[activeTab].map(item => renderTableRow(item))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Form Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-zinc-100 flex justify-between items-center sticky top-0 bg-white">
+              <h2 className="text-xl font-bold">{editingItem ? 'Edit' : 'Create'} {TABS.find(t => t.id === activeTab)?.label}</h2>
+              <button onClick={handleCloseModal} className="text-zinc-400 hover:text-zinc-600">✕</button>
+            </div>
+            <form onSubmit={handleSave} className="p-6">
+              {renderFormFields()}
+              <div className="mt-8 flex justify-end gap-3">
+                <button type="button" onClick={handleCloseModal} className="px-4 py-2 border border-zinc-200 rounded-lg text-zinc-600 hover:bg-zinc-50 font-medium">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 font-medium">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

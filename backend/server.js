@@ -8,6 +8,7 @@ const publicGuideRoutes = require('./routes/publicGuideRoutes');
 const packageRoutes = require('./routes/packageRoutes');
 const routeManagementRoutes = require('./routes/routeManagementRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const pricingRoutes = require('./routes/pricingRoutes');
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use('/api/packages', packageRoutes);
 app.use('/api/route-management', routeManagementRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/ai', aiContentRoutes);
+app.use('/api/pricing', pricingRoutes);
 app.use('/api', apiRoutes);
 
 // Global Error Handler (catches Clerk Unauthenticated errors)

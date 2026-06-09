@@ -6,13 +6,15 @@ import {
   Hotel, 
   Star, 
   Settings,
-  Package
+  Package,
+  IndianRupee
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { name: 'Enquiries', path: '/enquiries', icon: Star },
+    { name: 'Price Management', path: '/price-management', icon: IndianRupee },
     { name: 'Package Management', path: '/packages', icon: Package },
     { name: 'Route Management', path: '/route-management', icon: LayoutDashboard },
     { name: 'Portfolio', path: '/portfolio', icon: Image },

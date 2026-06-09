@@ -11,6 +11,7 @@ import TourPackages from './pages/TourPackages';
 // Lazy load remaining routes
 const PackageDetail = lazy(() => import('./pages/PackageDetail'));
 const Enquire = lazy(() => import('./pages/Enquire'));
+const FareCalculator = lazy(() => import('./pages/FareCalculator'));
 const PickupRouteGuide = lazy(() => import('./pages/PickupRouteGuide'));
 const CarRentals = lazy(() => import('./pages/CarRentals'));
 const Hotels = lazy(() => import('./pages/Hotels'));
@@ -63,6 +64,7 @@ function App() {
             <Route path="/car-rentals" element={<CarRentals />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/enquire-now" element={<Enquire />} />
+            <Route path="/fare-calculator" element={<FareCalculator />} />
             <Route path="/write-review" element={<WriteReview />} />
             <Route path="/admin/reviews" element={<AdminReviews />} />
             

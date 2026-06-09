@@ -164,15 +164,19 @@ export default function PackageDetail() {
           </div>
           <div className="md:col-span-4">
             <div className="relative bg-white p-8 rounded-2xl shadow-xl border-t-4 border-saffron sticky top-32">
-              <p className="text-earth-400 text-sm mb-2">Price Details</p>
-              <div className="flex items-baseline gap-2 mb-6">
-                <span className="font-serif text-4xl text-earth">₹{pkg.currentPrice}</span>
-              </div>
-              <div className="flex flex-col gap-3 mt-4">
-                <Link to="/enquire-now" className="bg-gold text-white hover:bg-gold-dark text-center rounded py-3 font-bold uppercase tracking-wide transition-all shadow-sm">
-                  Enquire Now
-                </Link>
-              </div>
+              <p className="text-earth font-serif text-xl font-bold mb-2">Need Custom Pricing?</p>
+              <p className="text-earth-400 text-sm mb-5 leading-relaxed">Get an instant fare estimate based on your travel preferences.</p>
+              <ul className="space-y-2.5 mb-6">
+                {['Destination', 'Vehicle Type', 'Number Of Travellers', 'Seating Capacity'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-earth-400">
+                    <span className="w-5 h-5 rounded-full bg-gold/15 text-gold flex items-center justify-center text-xs font-bold">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/fare-calculator" className="w-full bg-gold hover:brightness-110 text-charcoal text-center rounded-xl py-3.5 font-bold uppercase tracking-wide transition-all shadow-md block">
+                Book This Tour
+              </Link>
             </div>
           </div>
         </div>
@@ -608,12 +612,17 @@ export default function PackageDetail() {
             
             <div className="bg-white p-8 rounded-3xl shadow-xl border border-zinc-100 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-saffron to-gold"></div>
-              <p className="text-zinc-500 text-sm mb-1 uppercase tracking-wider font-bold">Premium Package</p>
-              <div className="flex items-baseline gap-2 mb-6">
-                <span className="font-serif text-5xl text-earth">₹{pkg.currentPrice}</span>
-              </div>
-              
-              <Link to="/enquire-now" className="w-full bg-[#fcd34d] hover:bg-[#f59e0b] text-zinc-900 hover:text-white text-center rounded-xl py-4 font-bold text-lg transition-colors duration-300 shadow-md hover:shadow-xl block mb-3">
+              <p className="text-earth font-serif text-xl font-bold mb-2">Need Custom Pricing?</p>
+              <p className="text-zinc-500 text-sm mb-5 leading-relaxed">Get an instant fare estimate based on your travel preferences.</p>
+              <ul className="space-y-2.5 mb-6">
+                {['Destination', 'Vehicle Type', 'Number Of Travellers', 'Seating Capacity'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-zinc-600">
+                    <span className="w-5 h-5 rounded-full bg-gold/15 text-gold flex items-center justify-center text-xs font-bold">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/fare-calculator" className="w-full bg-[#fcd34d] hover:bg-[#f59e0b] text-zinc-900 hover:text-white text-center rounded-xl py-4 font-bold text-lg transition-colors duration-300 shadow-md hover:shadow-xl block mb-3">
                 Book This Tour
               </Link>
               <a href="tel:+919120073105" className="w-full bg-white border-2 border-zinc-200 text-zinc-700 hover:border-[#f59e0b] hover:text-[#f59e0b] text-center rounded-xl py-4 font-bold transition-colors duration-300 block">
