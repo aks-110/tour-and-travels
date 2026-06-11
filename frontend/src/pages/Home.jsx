@@ -268,7 +268,7 @@ export default function Home() {
             {/* CTA Buttons — flex-wrap for natural flow on small screens */}
             <div className="flex flex-wrap gap-3 sm:gap-4">
               <a 
-                href="#" 
+                href="/enquire-now" 
                 className="bg-gold hover:brightness-110 hover:shadow-lg hover:shadow-gold/25 hover:-translate-y-0.5 active:scale-95 transition-all text-charcoal font-bold rounded-full inline-flex items-center justify-center shadow-lg text-center flex-1 sm:flex-initial"
                 style={{
                   fontSize: 'clamp(0.8rem, 0.75rem + 0.2vw, 0.9rem)',
@@ -276,7 +276,7 @@ export default function Home() {
                   minWidth: 'min(100%, 220px)',
                 }}
               >
-                WhatsApp — Free Quote
+                Get Free-Enquiry
               </a>
               <Link 
                 to="/tour-packages" 
