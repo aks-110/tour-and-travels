@@ -147,7 +147,7 @@ export default function Footer() {
         <hr className="border-white/10 my-10" />
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-ivory/40 text-xs">© 2026 Varanasi SN Tour & Travels. <span className="text-gold">Jai Shri Ram.</span></p>
+          <p className="text-ivory/40 text-xs">© 2026 Varanasi SN Tours & Travels. <span className="text-gold">Jai Shri Ram.</span></p>
           <div className="flex gap-6">
             <a href="#" className="text-ivory/40 hover:text-gold text-xs transition-colors">Terms of Service</a>
             <a href="#" className="text-ivory/40 hover:text-gold text-xs transition-colors">Privacy Policy</a>

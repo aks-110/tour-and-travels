@@ -7,84 +7,69 @@ import { AnimatePresence, motion } from 'framer-motion';
    Uses clamp() for fluid sizing. Preserves aspect ratio via viewBox.
    ═══════════════════════════════════════════════════════════════════════════ */
 const LogoSVG = ({ className = "w-[clamp(3.5rem,5vw,5rem)] h-auto" }) => (
-  <svg 
-    className={`overflow-visible transition-all duration-700 ease-in-out ${className}`} 
-    viewBox="-5 -5 110 110" 
-    preserveAspectRatio="xMidYMid meet"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <linearGradient id="sunGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#FFB300" stopOpacity="0.4" />
-        <stop offset="100%" stopColor="#F57C00" stopOpacity="0" />
-      </linearGradient>
-      <linearGradient id="candleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#E65100" />
-        <stop offset="100%" stopColor="#992B00" />
-      </linearGradient>
-      <linearGradient id="templeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#D84315" stopOpacity="0.75" />
-        <stop offset="100%" stopColor="#8C1313" stopOpacity="0.9" />
-      </linearGradient>
-      <radialGradient id="auraGradient" cx="50%" cy="45%" r="55%">
-        <stop offset="0%" stopColor="#FFB300" stopOpacity="0.25" />
-        <stop offset="60%" stopColor="#FF8F00" stopOpacity="0.1" />
-        <stop offset="100%" stopColor="#F57C00" stopOpacity="0" />
-      </radialGradient>
-      <radialGradient id="flameGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#FFD54F" stopOpacity="0.8" />
-        <stop offset="100%" stopColor="#FF8F00" stopOpacity="0" />
-      </radialGradient>
-    </defs>
+   <svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className="max-w-full">
+                <defs>
+                  <linearGradient id="sunGradientFooter" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#FFB300" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#F57C00" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="templeGradientFooter" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#D84315" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#B71C1C" stopOpacity="1" />
+                  </linearGradient>
+                  <radialGradient id="auraGradientFooter" cx="50%" cy="30%">
+                    <stop offset="0%" stopColor="#FFB300" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#F57C00" stopOpacity="0" />
+                  </radialGradient>
+                </defs>
 
-    {/* Spiritual aura */}
-    <g className="origin-center transition-transform duration-1000 md:scale-[1.15]">
-      <circle cx="50" cy="45" r="45" fill="url(#auraGradient)" />
-    </g>
+                {/* Icon section */}
+                <g transform="translate(10, 10)">
+                  {/* Spiritual aura */}
+                  <circle cx="40" cy="40" r="38" fill="url(#auraGradientFooter)" />
 
-    {/* Rising sun rays */}
-    <g className="origin-center transition-transform duration-1000 md:scale-105" opacity="0.85" stroke="#F57C00" strokeWidth="2" strokeLinecap="round">
-      <line x1="50" y1="5" x2="50" y2="-2" />
-      <line x1="72" y1="12" x2="80" y2="5" />
-      <line x1="88" y1="30" x2="96" y2="25" />
-      <line x1="92" y1="52" x2="102" y2="52" />
-      <line x1="28" y1="12" x2="20" y2="5" />
-      <line x1="12" y1="30" x2="4" y2="25" />
-      <line x1="8" y1="52" x2="-2" y2="52" />
-    </g>
+                  {/* Rising sun rays */}
+                  <g opacity="0.6">
+                    <line x1="40" y1="8" x2="40" y2="0" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="55" y1="12" x2="61" y2="6" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="65" y1="24" x2="73" y2="20" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="68" y1="40" x2="76" y2="40" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="25" y1="12" x2="19" y2="6" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="15" y1="24" x2="7" y2="20" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                    <line x1="12" y1="40" x2="4" y2="40" stroke="#FFB300" strokeWidth="1.5" strokeLinecap="round"/>
+                  </g>
 
-    {/* Sun arc */}
-    <path d="M 22 55 A 28 28 0 0 1 78 55" fill="none" stroke="url(#sunGradient)" strokeWidth="3" opacity="0.7"/>
+                  {/* Sun circle */}
+                  <circle cx="40" cy="24" r="10" fill="url(#sunGradientFooter)" stroke="#FFB300" strokeWidth="2"/>
 
-    {/* Temple structure */}
-    <g className="origin-bottom transition-transform duration-1000 md:-translate-y-1">
-      <rect x="28" y="45" width="44" height="32" fill="url(#templeGradient)" rx="2" opacity="0.5"/>
-      <path d="M 23 45 L 50 30 L 77 45 Z" fill="url(#templeGradient)" opacity="0.6"/>
-      <path d="M 31 35 L 50 22 L 69 35 Z" fill="url(#templeGradient)" opacity="0.7"/>
-      <circle cx="50" cy="22" r="3" fill="#FFB300" opacity="0.9"/>
-      <rect x="49" y="16" width="2" height="6" fill="#FFB300" opacity="0.9"/>
-    </g>
+                  {/* Ganga river waves */}
+                  <path d="M 8 60 Q 16 57 24 60 T 40 60 T 56 60 T 72 60" stroke="#1565C0" strokeWidth="2" fill="none" opacity="0.5"/>
+                  <path d="M 8 64 Q 20 61 32 64 T 48 64 T 64 64 T 72 64" stroke="#1565C0" strokeWidth="2" fill="none" opacity="0.3"/>
 
-    {/* Focal Point: Premium Candle / Diya */}
-    <g className="origin-bottom transition-transform duration-1000 md:scale-110 relative z-10">
-      <rect x="36" y="52" width="28" height="26" fill="url(#candleGradient)" rx="3" />
-      <ellipse cx="50" cy="52" rx="14" ry="4" fill="#E65100" />
-      <ellipse cx="50" cy="78" rx="15" ry="3" fill="#2B1D0E" opacity="0.4" />
-      <circle cx="50" cy="40" r="16" fill="url(#flameGlow)" className="animate-pulse" />
-      <g transform="translate(50, 42) scale(0.65) translate(-50, -60)">
-        <path d="M 48 60 Q 48 58 50 58 Q 52 58 52 60 Q 52 62 50 62 Q 48 62 48 60 M 50 58 L 50 55 M 52 60 Q 54 60 54 62"
-              stroke="#FFF8E1" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M 48 60 Q 48 58 50 58 Q 52 58 52 60 Q 52 62 50 62 Q 48 62 48 60 M 50 58 L 50 55 M 52 60 Q 54 60 54 62"
-              stroke="#FF8F00" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-    </g>
+                  {/* Temple structure */}
+                  <rect x="28" y="40" width="24" height="20" fill="url(#templeGradientFooter)" rx="1"/>
+                  <path d="M 25.6 40 L 40 32 L 54.4 40 Z" fill="url(#templeGradientFooter)"/>
+                  <path d="M 30.4 32 L 40 27.2 L 49.6 32 Z" fill="url(#templeGradientFooter)"/>
 
-    {/* Ganga river waves */}
-    <g className="origin-bottom transition-transform duration-1000 md:scale-105">
-      <path d="M -2 78 Q 15 72 35 78 T 65 78 T 102 78" stroke="#1565C0" strokeWidth="2.5" fill="none" opacity="0.7" strokeLinecap="round"/>
-      <path d="M 5 86 Q 25 80 45 86 T 75 86 T 100 86" stroke="#1E88E5" strokeWidth="2" fill="none" opacity="0.4" strokeLinecap="round"/>
-    </g>
-  </svg>
+                  {/* Temple kalash */}
+                  <circle cx="40" cy="27.2" r="2" fill="#FFB300"/>
+                  <rect x="39.2" y="24" width="1.6" height="3.2" fill="#FFB300"/>
+
+                  {/* Om symbol */}
+                  <path d="M 38.4 48 Q 38.4 46.4 40 46.4 Q 41.6 46.4 41.6 48 Q 41.6 49.6 40 49.6 Q 38.4 49.6 38.4 48 M 40 46.4 L 40 44 M 41.6 48 Q 43.2 48 43.2 49.6"
+                        stroke="#ffffff" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/>
+
+                  {/* Temple door */}
+                  <rect x="37.6" y="50.4" width="4.8" height="8" fill="#FFB300" opacity="0.3" rx="0.4"/>
+                </g>
+
+                {/* Text section */}
+                <g transform="translate(100, 20)">
+                  <text x="0" y="30" fontFamily="Arial, sans-serif" fontSize="35" fontWeight="700" fill="#D84315" letterSpacing="-0.7">SN</text>
+                  <text x="0" y="60" fontFamily="Arial, sans-serif" fontSize="9" fontWeight="400" fill="#B71C1C" letterSpacing="0.72" fontStyle="italic">Varanasi</text>
+                  <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="500" fill="#F57C00" letterSpacing="1.65" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
+                </g>
+              </svg>
 );
 
 /* ═══════════════════════════════════════════════════════════════════════════
