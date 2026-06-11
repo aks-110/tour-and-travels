@@ -56,7 +56,7 @@ export default function VaranasiTourPackage() {
       <section className="relative bg-black text-white pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://res.cloudinary.com/dz8whxcuk/image/upload/v1781160043/Hero_psr2hr.webp"
+            src="https://res.cloudinary.com/dz8whxcuk/image/upload/v1781161948/Hero1_gzld1w.avif"
             alt="Varanasi ghats panoramic view along the Ganga river at sunset — Varanasi tour package"
             className="w-full h-full object-cover opacity-40"
             loading="eager"

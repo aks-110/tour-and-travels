@@ -197,7 +197,7 @@ export default function Home() {
         {/* Background image — object-position prevents awkward cropping on mobile */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="https://res.cloudinary.com/dz8whxcuk/image/upload/v1781160043/Hero_psr2hr.webp" 
+            src="https://res.cloudinary.com/dz8whxcuk/image/upload/v1781161948/Hero1_gzld1w.avif" 
             alt="Varanasi ghats along the Ganga river at evening" 
             className="w-full h-full object-cover animate-hero-float"
             style={{ objectPosition: 'center 30%' }}
