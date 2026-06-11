@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-charcoal text-ivory py-20 border-t-4 border-gold relative overflow-hidden">
+    <footer className="bg-charcoal text-ivory py-6 md:py-8 border-t-4 border-gold relative overflow-hidden">
       
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6">
           
           {/* Brand & About */}
           <div className="md:col-span-5">
-            <Link className="inline-flex leading-none flex-col items-start mb-6" to="/">
-              <svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className="max-w-full">
+            <Link className="inline-flex leading-none flex-col items-start mb-3" to="/">
+              <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className="w-72 md:w-80 h-auto max-w-full">
                 <defs>
                   <linearGradient id="sunGradientFooter" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#FFB300" stopOpacity="0.2" />
@@ -67,10 +67,10 @@ export default function Footer() {
                 </g>
 
                 {/* Text section */}
-                <g transform="translate(100, 20)">
-                  <text x="0" y="60" fontFamily="Arial, sans-serif" fontSize="9" fontWeight="400" fill="#B71C1C" letterSpacing="0.72" fontStyle="italic">Varanasi</text>
-                  <text x="0" y="30" fontFamily="Arial, sans-serif" fontSize="35" fontWeight="700" fill="#D84315" letterSpacing="-0.7">SN</text>
-                  <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="500" fill="#F57C00" letterSpacing="1.65" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
+                <g transform="translate(95, 15)">
+                  <text x="0" y="15" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="700" fill="#B71C1C" letterSpacing="1.5">Varanasi</text>
+                  <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="34" fontWeight="800" fill="#D84315" letterSpacing="-1">SN</text>
+                  <text x="0" y="65" fontFamily="Arial, sans-serif" fontSize="12" fontWeight="600" fill="#F57C00" letterSpacing="2" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
                 </g>
               </svg>
             </Link>
@@ -92,10 +92,10 @@ export default function Footer() {
           
           {/* Quick Links */}
           <div className="md:col-span-2">
-            <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
+            <h4 className="font-serif text-gold text-xl font-light mb-4 flex items-center gap-2">
               <span className="text-gold-dark text-sm">✦</span> Quick Links
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li><Link to="/" className="text-ivory/60 hover:text-gold transition-colors text-sm">Home</Link></li>
               <li><Link to="/tour-packages" className="text-ivory/60 hover:text-gold transition-colors text-sm">Tour Packages</Link></li>
               <li><Link to="/car-rentals" className="text-ivory/60 hover:text-gold transition-colors text-sm">Car Rentals</Link></li>
@@ -106,10 +106,10 @@ export default function Footer() {
 
           {/* Top Services */}
           <div className="md:col-span-2">
-            <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
+            <h4 className="font-serif text-gold text-xl font-light mb-4 flex items-center gap-2">
               <span className="text-gold-dark text-sm">✦</span> Top Services
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li><Link to="/varanasi-tour-package" className="text-ivory/60 hover:text-gold transition-colors text-sm">Varanasi Tour</Link></li>
               <li><Link to="/kashi-vishwanath-tour" className="text-ivory/60 hover:text-gold transition-colors text-sm">Kashi Darshan</Link></li>
               <li><Link to="/ayodhya-tour-package" className="text-ivory/60 hover:text-gold transition-colors text-sm">Ayodhya Tour</Link></li>
@@ -120,10 +120,10 @@ export default function Footer() {
           
           {/* Contact Info */}
           <div className="md:col-span-3">
-            <h4 className="font-serif text-gold text-xl font-light mb-6 flex items-center gap-2">
+            <h4 className="font-serif text-gold text-xl font-light mb-4 flex items-center gap-2">
               <span className="text-gold-dark text-sm">✦</span> Contact Us
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               <li className="text-ivory/80 text-sm flex items-start gap-3">
                 <span className="text-gold mt-0.5">📍</span>
                 <span>Mahmoorganj, Nirala Nagar<br/>Lane No.3, Varanasi<br/>UP, India - 221010</span>
@@ -144,7 +144,7 @@ export default function Footer() {
           </div>
         </div>
         
-        <hr className="border-white/10 my-10" />
+        <hr className="border-white/10 my-4" />
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-ivory/40 text-xs">© 2026 Varanasi SN Tours & Travels. <span className="text-gold">Jai Shri Ram.</span></p>

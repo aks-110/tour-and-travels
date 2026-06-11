@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
    Uses clamp() for fluid sizing. Preserves aspect ratio via viewBox.
    ═══════════════════════════════════════════════════════════════════════════ */
 const LogoSVG = ({ className = "w-[clamp(3.5rem,5vw,5rem)] h-auto" }) => (
-   <svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className="max-w-full">
+   <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className={`max-w-full ${className}`}>
                 <defs>
                   <linearGradient id="sunGradientFooter" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="#FFB300" stopOpacity="0.2" />
@@ -64,10 +64,10 @@ const LogoSVG = ({ className = "w-[clamp(3.5rem,5vw,5rem)] h-auto" }) => (
                 </g>
 
                 {/* Text section */}
-                <g transform="translate(100, 20)">
-                  <text x="0" y="30" fontFamily="Arial, sans-serif" fontSize="35" fontWeight="700" fill="#D84315" letterSpacing="-0.7">SN</text>
-                  <text x="0" y="60" fontFamily="Arial, sans-serif" fontSize="9" fontWeight="400" fill="#B71C1C" letterSpacing="0.72" fontStyle="italic">Varanasi</text>
-                  <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="500" fill="#F57C00" letterSpacing="1.65" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
+                <g transform="translate(95, 15)">
+                  <text x="0" y="15" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="700" fill="#B71C1C" letterSpacing="1.5">Varanasi</text>
+                  <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="34" fontWeight="800" fill="#D84315" letterSpacing="-1">SN</text>
+                  <text x="0" y="65" fontFamily="Arial, sans-serif" fontSize="12" fontWeight="600" fill="#F57C00" letterSpacing="2" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
                 </g>
               </svg>
 );
@@ -500,7 +500,7 @@ export default function Navbar() {
         ref={navRef}
         className="w-full flex items-center justify-between gap-4"
         style={{
-          padding: `clamp(0.625rem, 0.5rem + 0.5vw, 1rem) clamp(1rem, 2vw + 0.5rem, 4rem)`,
+          padding: `clamp(0.25rem, 0.2rem + 0.2vw, 0.5rem) clamp(1rem, 2vw + 0.5rem, 4rem)`,
         }}
         aria-label="Main navigation"
       >
@@ -536,8 +536,8 @@ export default function Navbar() {
           <LogoSVG 
             className={`h-auto transition-all duration-500 ${
               shouldCollapse 
-                ? 'w-[clamp(2.5rem,8vw,3.5rem)]' 
-                : 'w-[clamp(3rem,4vw,4.5rem)]'
+                ? 'w-[clamp(9rem,18vw,12rem)]' 
+                : 'w-[clamp(14rem,22vw,16rem)]'
             }`} 
           />
         </Link>
