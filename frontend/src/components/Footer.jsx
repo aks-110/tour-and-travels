@@ -9,7 +9,11 @@ export default function Footer() {
           
           {/* Brand & About */}
           <div className="md:col-span-5">
-            <Link className="inline-flex leading-none flex-col items-start mb-3" to="/">
+            <Link 
+              className="inline-flex leading-none flex-col items-start mb-3" 
+              to="/"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
               <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" className="w-72 md:w-80 h-auto max-w-full">
                 <defs>
                   <linearGradient id="sunGradientFooter" x1="0%" y1="0%" x2="0%" y2="100%">

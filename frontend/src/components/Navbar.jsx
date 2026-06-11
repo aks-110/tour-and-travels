@@ -243,6 +243,7 @@ function MobileDrawer({ isOpen, onClose, location }) {
 
   const handleLinkClick = () => {
     onClose();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Check if a path is active
@@ -531,6 +532,7 @@ export default function Navbar() {
             shouldCollapse ? 'flex-1 justify-center' : 'flex-shrink-0'
           }`}
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Varanasi SN Tour & Travels — Home"
         >
           <LogoSVG 
