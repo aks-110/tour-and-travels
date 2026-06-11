@@ -33,7 +33,7 @@ export default function SacredDestinations() {
   );
 
   return (
-    <section className="relative w-full py-10 md:py-16 overflow-hidden flex flex-col items-center justify-center bg-[#F8F5EE]">
+    <section className="relative w-full py-6 md:py-8 overflow-hidden flex flex-col items-center justify-center bg-[#F8F5EE]">
       {/* Background Spiritual Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
         <div className="w-[120%] max-w-[1000px] h-[60%] rounded-[100%] bg-gradient-to-r from-[#FF7A00]/5 to-[#D4AF37]/10 blur-[100px] md:blur-[150px]"></div>
@@ -41,7 +41,7 @@ export default function SacredDestinations() {
 
       <div className="relative z-10 w-full flex flex-col items-center">
         {/* Top Label */}
-        <div className="mb-6 md:mb-10 inline-flex items-center justify-center opacity-80">
+        <div className="mb-3 md:mb-4 inline-flex items-center justify-center opacity-80">
           <span className="w-16 h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37]"></span>
           <span className="px-6 font-sans text-xs sm:text-sm font-semibold tracking-[0.4em] uppercase text-[#D4AF37]">
             Divine Pilgrimages to the our journey s

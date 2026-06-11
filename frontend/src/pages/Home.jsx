@@ -437,13 +437,13 @@ export default function Home() {
 
 
       {/* Varanasi SN Tour & Travels Work Showcase / Portfolio */}
-      <section className="bg-charcoal py-20 md:py-32 overflow-hidden relative">
+      <section className="bg-charcoal py-8 md:py-12 overflow-hidden relative">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gold via-charcoal to-charcoal"></div>
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 relative z-10">
-          <div className="text-center mb-16">
-            <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-4">Journey with Varanasi SN Tour & Travels</p>
+          <div className="text-center mb-6 md:mb-8">
+            <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-3">Journey with Varanasi SN Tour & Travels</p>
             <h2 className="font-serif text-3xl md:text-5xl font-light text-ivory">Glimpses of Divine Experiences</h2>
-            <p className="text-ivory/60 mt-6 max-w-2xl mx-auto">Witness the spiritual journeys and memorable moments captured by our pilgrims. A visual testament to our commitment to safe and fulfilling yatras.</p>
+            <p className="text-ivory/60 mt-3 max-w-2xl mx-auto">Witness the spiritual journeys and memorable moments captured by our pilgrims. A visual testament to our commitment to safe and fulfilling yatras.</p>
           </div>
           
           {/* Scrolling Marquee Gallery */}
@@ -501,11 +501,11 @@ export default function Home() {
       </section>
 
       {/* Customer Reviews Section */}
-      <section className="bg-ivory py-20 md:py-28 border-t border-charcoal/10 relative">
+      <section className="bg-ivory py-8 md:py-12 border-t border-charcoal/10 relative">
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6">
             <div className="text-center md:text-left mb-6 md:mb-0">
-              <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-4">Testimonials</p>
+              <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-3">Testimonials</p>
               <h2 className="font-serif text-3xl md:text-5xl font-light">What Our Pilgrims Say</h2>
             </div>
             <div>
@@ -573,10 +573,10 @@ export default function Home() {
       </section>
 
       {/* Varanasi SN Tour & Travels Impact / Live Stats Portfolio */}
-      <section className="bg-charcoal py-16 text-ivory text-center">
+      <section className="bg-charcoal py-8 md:py-10 text-ivory text-center">
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
-          <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-4">Varanasi SN Tour & Travels Portfolio</p>
-          <h2 className="font-serif text-3xl md:text-4xl font-light mb-12">Our Growing Spiritual Family</h2>
+          <p className="text-gold font-sans text-xs font-semibold tracking-[0.15em] uppercase mb-3">Varanasi SN Tour & Travels Portfolio</p>
+          <h2 className="font-serif text-3xl md:text-4xl font-light mb-6">Our Growing Spiritual Family</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto divide-y sm:divide-y-0 sm:divide-x divide-white/10">
             <div className="pt-8 sm:pt-0">
