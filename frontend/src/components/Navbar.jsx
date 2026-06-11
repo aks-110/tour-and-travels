@@ -311,8 +311,8 @@ function MobileDrawer({ isOpen, onClose, location }) {
 
             {/* Drawer Header */}
             <div className="flex items-center justify-between p-5 border-b border-white/10">
-              <Link to="/" onClick={handleLinkClick} className="flex items-center gap-3">
-                <LogoSVG className="w-[clamp(8rem,14vw,10rem)] h-auto" />
+              <Link to="/" onClick={handleLinkClick} className="flex items-center gap-3 shrink-0">
+                <LogoSVG className="w-40 h-auto" />
               </Link>
               <motion.button
                 onClick={onClose}
