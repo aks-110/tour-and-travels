@@ -62,7 +62,7 @@ export default function Hotels() {
     <main className="min-h-screen bg-ivory font-sans text-earth pt-[72px] md:pt-[88px] pb-20 relative">
       <SEO 
         title="Best Hotels in Varanasi | Premium & Budget Accommodations" 
-        description="Find the best premium hotels, budget stays, and ashrams in Varanasi, Prayagraj, and Ayodhya with Varanasi SN Tours & Travels."
+        description="Find the best premium hotels, budget stays, and ashrams in Varanasi, Prayagraj, and Ayodhya with Varanasi SN Tour & Travels."
         keywords="hotels in Varanasi, best hotels in Varanasi, Varanasi accommodation, premium hotels Kashi, budget stay Varanasi"
         url="/hotels"
         schemaData={schemas}

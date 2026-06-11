@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 const SITE_NAME = 'Varanasi SN Tour & Travels';
 const SITE_URL = 'https://www.varanasisntours.com';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const DEFAULT_OG_IMAGE = 'https://res.cloudinary.com/dz8whxcuk/image/upload/f_jpg/v1781161948/Hero1_gzld1w.jpg';
 const DEFAULT_DESCRIPTION = 'Varanasi SN Tour & Travels offers premium Varanasi tours, Ayodhya trips, Prayagraj packages, Nepal tours, taxi services and customized spiritual travel experiences in Uttar Pradesh, India.';
 
 export default function SEO({ 

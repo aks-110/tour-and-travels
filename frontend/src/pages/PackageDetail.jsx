@@ -110,7 +110,7 @@ export default function PackageDetail() {
       <main className="bg-ivory text-earth pt-20">
         <SEO 
           title={`${pkg.title} Tour Package`} 
-          description={pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tours & Travels."}
+          description={pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tour & Travels."}
           url={`/package/${id}`}
           image={pkg.imageUrl || pkg.imageUrls?.[0]}
         />
@@ -189,7 +189,7 @@ export default function PackageDetail() {
     <main className="bg-ivory text-earth">
       <SEO 
         title={`${ai.heroSection?.title || pkg.title} Premium Package`} 
-        description={ai.heroSection?.subtitle || (pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tours & Travels.")}
+        description={ai.heroSection?.subtitle || (pkg.overview ? pkg.overview.substring(0, 150) + "..." : "Explore this premium package with Varanasi SN Tour & Travels.")}
         url={`/package/${id}`}
         image={pkg.imageUrls?.[0]}
         schemaData={{

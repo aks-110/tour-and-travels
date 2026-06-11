@@ -68,9 +68,9 @@ export default function Footer() {
 
                 {/* Text section */}
                 <g transform="translate(100, 20)">
+                  <text x="0" y="60" fontFamily="Arial, sans-serif" fontSize="9" fontWeight="400" fill="#B71C1C" letterSpacing="0.72" fontStyle="italic">Varanasi</text>
                   <text x="0" y="30" fontFamily="Arial, sans-serif" fontSize="35" fontWeight="700" fill="#D84315" letterSpacing="-0.7">SN</text>
                   <text x="0" y="48" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="500" fill="#F57C00" letterSpacing="1.65" style={{textTransform:'uppercase'}}>TOUR &amp; TRAVELS</text>
-                  <text x="0" y="60" fontFamily="Arial, sans-serif" fontSize="9" fontWeight="400" fill="#B71C1C" letterSpacing="0.72" fontStyle="italic">Varanasi</text>
                 </g>
               </svg>
             </Link>
